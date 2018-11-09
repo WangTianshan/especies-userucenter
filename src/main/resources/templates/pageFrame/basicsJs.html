@@ -1,56 +1,28 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="copy">
-	<a href="#0" class="cd-top">Top</a>
-    <!-- jQuery 3 -->
-    <script th:src="@{/bowerComponents/jquery/jquery.min.js}" src="bowerComponents/jquery/dist/jquery.min.js"></script>
-    <!--jquery.form -->
-    <script th:src="@{/plugins/jqueryform/jquery.form.min.js }" src="plugins/layer/laye.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script th:src="@{/bowerComponents/bootstrap/js/bootstrap.min.js}" src="bowerComponents/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script th:src="@{/bowerComponents/jquery-slimscroll/jquery.slimscroll.min.js}" src="bowerComponents/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script th:src="@{/bowerComponents/fastclick/lib/fastclick.js}" src="bowerComponents/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script th:src="@{/bowerComponents/AdminLTE/js/adminlte.min.js}" src="bowerComponents/AdminLTE/dist/js/adminlte.min.js"></script>
-    <!-- PACE -->
-    <!--<script th:src="@{/bowerComponents/PACE/pace.min.js}" src="PACE/PACE/pace.min.js"></script>-->
-    <!-- Headroom -->
-    <script th:src="@{/plugins/headroom/headroom.min.js}" src="plugins/headroom/headroom.min.js"></script>
-    <!-- 引入goTop -->
-    <script th:src="@{/plugins/goTop/js/main.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-3.1.1.min.js}" src="plugins/jQuery/jquery-3.1.1.min.js"></script>
+    <script th:src="@{/plugins/tether/tether.min.js}" src="plugins/tether/tether.min.js"></script>
+    <script th:src="@{/plugins/popper/popper.min.js}" src="plugins/popper/popper.min.js"></script>
+    <script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}" src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--<script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>-->
+    <script th:src="@{/plugins/parallax/jarallax.min.js}" src="plugins/parallax/jarallax.min.js"></script>
+    <script th:src="@{/plugins/dropdown/js/script.min.js}" src="plugins/dropdown/js/script.min.js"></script>
+    <script th:src="@{/js/script.js}" src="plugins/theme/js/script.js"></script>
+
+    <!-- Bootstrap-table 1.10.1 -->
+    <script th:src="@{/plugins/bootstrap-table/js/bootstrap-table.js}"></script>
+    <script th:src="@{/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.js}"></script>
+    <!--<script th:src="@{/plugins/bootstrap-table/locale/bootstrap-table-en-US.js}"></script>-->
     <!-- Layer 3.0.1 -->
-    <script th:src="@{/plugins/layer/layer.js}" src="plugins/layer/laye.js"></script>
+    <!--<script th:src="@{/plugins/layer/layer.js}" src="plugins/layer/laye.js"></script>-->
+
     <!-- page_script -->
     <script>
-        var base=document.getElementById("baseurl").href;
-//        $(document).ajaxStart(function () {
-//            Pace.restart()
-//        });
-        //初始化顶部Menu
-        (function() {
-            var header = document.querySelector("#header");
+        //初始化组件
+        $( document ).ready( function() {
 
-            if(window.location.hash) {
-                header.classList.add("headroom--unpinned");
-            }
+        } );
 
-            var headroom = new Headroom(header, {
-                tolerance: {
-                    down : 5,
-                    up : 1
-                },
-                offset : 1,
-                classes: {
-                    "initial": "animated",
-                    "pinned": "slideDown",
-                    "unpinned": "slideUp"
-                }
-            });
-            headroom.init();
-
-        }());
-        //构造语言切换
         function ToChinese() {
             $.ajax({url:"language/zh_CN",async:false});
             location.reload();
@@ -60,10 +32,17 @@
             $.ajax({url:"language/en",async:false});
             location.reload();
         }
-        //构造开发提示
-        function building() {
-            layer.msg('正在开发', function(){
+
+        function showMessageLayer(text) {
+            layer.msg(text, {time: 1000},function(){
+                location.reload();
             });
+        }
+
+        function go_top() {
+            var speed=200;//滑动的速度
+            $('body,html').animate({ scrollTop: 0 }, speed);
+            return false;
         }
     </script>
 </th:block>

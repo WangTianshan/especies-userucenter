@@ -1,324 +1,135 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<!--
-    Title:首页
-    Description：首页
-    Author：WangTianshan (王天山)
-    Created date: 2017/12/01 21:35
-    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
-    Version: Html5
- -->
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
-    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="description" content=""/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="especies.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" th:href="@{/images/logo.png}" href="/images/logo.png" type="image/x-icon">
+    <meta name="description" content="">
+    <title>物种多样性数据平台 ESPECIES</title>
     <!-- 引入css -->
-    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
-    <!-- Banner-->
-    <link rel="stylesheet" th:href="@{/css/banner.css}" href="css/banner.css"/>
+    <th:block th:substituteby="pageFrame/basicsCss :: copy"></th:block>
 </head>
-<body class="hold-transition skin-leaf fixed layout-top-nav">
-<!-- 主界面区 -->
-<div class="wrapper">
-    <!-- 引入Header -->
-    <header id="header" class="main-header">
-        <th:block th:replace="pageFrame/basicsHeader :: copy"></th:block>
-    </header>
-    <!-- 引入loginModal -->
-    <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/loginModal :: copy"></th:block>
-    <!-- 引入logoutModal -->
-    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
-    <!-- 显示区 -->
-    <div class="content-wrapper">
-        <!-- 引入Banner -->
-        <th:block th:replace="banner/starBanner :: copy"></th:block>
-        <!-- 内容区 -->
-        <section class="container content-header">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <h2>
-                        <p><small th:text="#{observation_records}">观测记录</small></p>
-                        <span id="countRecord" class="text-leaf"></span> <small th:if="${#locale.getLanguage().equals('zh')}">条</small>
-                    </h2>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <h2>
-                        <p><small th:text="#{species}">记录物种</small></p>
-                        <span id="countSpecies" class="text-leaf"></span> <small th:if="${#locale.getLanguage().equals('zh')}">种</small>
-                    </h2>
-                </div>
-                <div class="col-lg-6 col-md-4 col-sm-4">
-                    <h2>
-                        <p><small th:text="#{count_images}">影像记录</small></p>
-                        <small th:text="#{identified}">已鉴定</small> <span id="countIdrecord" class="text-leaf"></span>
-                        <small th:text="#{identifying}">待鉴定</small> <span id="countUnidrecord" class="text-leaf"></span>
-                    </h2>
-                </div>
+<body>
+<!-- 引入menu -->
+<th:block th:substituteby="pageFrame/basicsMenu :: copy"></th:block>
+<section class="engine"><a href="#"></a></section>
+<section class="header6 cid-banner especies-fullscreen especies-parallax-background" id="header6-h">
+    <div class="especies-overlay" style="opacity: 0.3; background-color: rgb(177, 163, 116);"></div>
+    <div class="container">
+        <div class="row justify-content-center"></div>
+        <div class="row justify-content-md-center">
+            <div class="especies-white mx-auto col-md-6 hide-sm">
+                <h3>大标题</h3>
+                <p>is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside 31 million developers. </p>
             </div>
-        </section>
-        <section class="container content-header">
-            <div class="row">
-                <!-- small box -->
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="#" th:href="@{/record/list}">
-                            <img th:src="@{/img/showcase/showcase3.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="#" th:href="@{/record/list}">
-                                <h4>
-                                    <span th:text="#{observation_records}">观测记录</span><br/>
-                                    <small th:text="#{observation_records_subtitle}">何时何地观测到的动物</small>
-                                </h4>
-                            </a>
+            <div id="accordion" class="especies-white mx-auto col-sm-12 col-md-6">
+                <div class="card card-black">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                登陆
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Password</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="#" th:href="@{/media/image/list?groups=1}">
-                            <img th:src="@{/img/showcase/showcase1.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="#" th:href="@{/media/image/list?groups=1}">
-                                <h4>
-                                    <span th:text="#{images}">影像浏览</span><br/>
-                                    <small th:text="#{images_subtitle}">查看所有用户发布的观测图片</small>
-                                </h4>
-                            </a>
-                        </div>
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                注册
+                            </button>
+                        </h5>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="#" th:href="@{/media/image/idlist?isid=1}">
-                            <img th:src="@{/img/showcase/showcase2.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="#" th:href="@{/media/image/idlist?isid=1}">
-                                <h4>
-                                    <span th:text="#{identify_studio}">鉴定工作室</span><br/>
-                                    <small th:text="#{identify_studio_subtitle}">请求/帮助鉴定被记录的动物</small>
-                                </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="javascript:void(0)" onclick="pleaseLogin();">
-                        </th:block>
-                        <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="#" th:href="@{/user/record/storymap}">
-                        </th:block>
-                        <img th:src="@{/img/showcase/showcase6.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="javascript:void(0)" onclick="pleaseLogin();">
-                            </th:block>
-                            <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="#" th:href="@{/user/record/storymap}">
-                            </th:block>
-                            <h4>
-                                <span th:text="#{storymap}">观测笔记</span><br/>
-                                <small th:text="#{observation_map_subtitle}">在地图上查看动物被观测的位置</small>
-                            </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="javascript:void(0)" onclick="pleaseLogin();">
-                        </th:block>
-                        <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="#" th:href="@{/user/map/species}">
-                        </th:block>
-                        <img th:src="@{/img/showcase/showcase6.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="javascript:void(0)" onclick="pleaseLogin();">
-                            </th:block>
-                            <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="#" th:href="@{/user/map/species}">
-                            </th:block>
-                            <h4>
-                                <span th:text="#{observation_map}">观测地图</span><br/>
-                                <small th:text="#{observation_map_subtitle}">在地图上查看动物被观测的位置</small>
-                            </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="#" th:href="@{/autoidentify}">
-                        </th:block>
-                        <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                            <a href="#" th:href="@{/user/autoidentify}">
-                        </th:block>
-                            <img th:src="@{/img/showcase/showcase5.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="#" th:href="@{/autoidentify}">
-                            </th:block>
-                            <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-                                <a href="#" th:href="@{/user/autoidentify}">
-                            </th:block>
-                                <h4>
-                                    <span th:text="#{auto_identification}">物种自动识别</span><br/>
-                                    <small th:text="#{auto_identification_subtitle}">自动识别图片/照片中的物种</small>
-                                </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="http://www.mapbio.org/" target="_blank">
-                            <img th:src="@{/img/showcase/showcase7.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="http://www.mapbio.org/" target="_blank">
-                                <h4>
-                                    <span th:text="#{life_encyclopedia}">CasEearth生命大百科</span><br/>
-                                    <small th:text="#{life_encyclopedia}">CASearth生命大百科</small>
-                                </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="http://www.sp2000.org.cn/" target="_blank">
-                            <img th:src="@{/img/showcase/showcase8.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="http://www.sp2000.org.cn/" target="_blank">
-                                <h4>
-                                    <span th:text="#{colchina}">中国生物物种名录</span><br/>
-                                    <small th:text="#{colchina_subtitle}">权威的中国生物学名名录</small>
-                                </h4>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4">
-                    <div class="showcase">
-                        <a href="javascript:void(0)" onclick="building();">
-                            <img th:src="@{/img/showcase/showcase9.jpg}" alt="" class="img-responsive">
-                        </a>
-                        <div class="showcase-bottom">
-                            <a href="javascript:void(0)" onclick="building();">
-                                <h4>
-                                    <span th:text="#{app}">AnimalSeeker APP</span><br/>
-                                    <small th:text="#{app}">手机/平板设备上的AnimalSeeker</small>
-                                </h4>
-                            </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Email</label>
+                                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputPassword4">Password</label>
+                                        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress">Address</label>
+                                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress2">Address 2</label>
+                                    <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputCity">City</label>
+                                        <input type="text" class="form-control" id="inputCity">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="inputState">State</label>
+                                        <select id="inputState" class="form-control">
+                                            <option selected>Choose...</option>
+                                            <option>...</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputZip">Zip</label>
+                                        <input type="text" class="form-control" id="inputZip">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                            Check me out
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
-    <footer>
-        <th:block th:replace="pageFrame/basicsFooter :: copy"></th:block>
-    </footer>
-</div>
-<!-- 引入js -->
-<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
-<script th:src="@{/js/bannerScript.js}" src="PACE/PACE/pace.min.js"></script>
-<th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
-    <th:block th:replace="user/loginJs :: copy"></th:block>
-    <th:block th:if="${not #lists.isEmpty(activeMsg)}">
-        <th:block th:switch="${activeStatus}">
-            　　<script th:case="true">
-                    $(document).ready(function() {
-                        $('#loginIcon').click();
-                    });
-                </script>
-            　　<th:block th:case="false">
-                    <input id="activeMsg" class="hidden" th:value="${activeMsg}" readonly="readonly"></input>
-                　　<script>
-                        $(document).ready(function() {
-                            layer.msg($('#activeMsg').val(), function(){
-                            });
-                        });
-                    </script>
-                </th:block>
-        </th:block>
-    </th:block>
-</th:block>
-<!-- countUp -->
-<script th:src="@{/plugins/countUp/countUp.min.js}" src="PACE/PACE/pace.min.js"></script>
+    <!--<div class="especies-arrow hidden-sm-down" aria-hidden="true">-->
+        <!--<a href="#next">-->
+            <!--<i class="glyphicon glyphicon-menu-down"></i>-->
+        <!--</a>-->
+    <!--</div>-->
+</section>
+<!-- 引入footer -->
+<th:block th:substituteby="pageFrame/basicsFooter :: copy"></th:block>
+<!-- 引入js【body末尾引入js文件会使页面加载更快】 -->
+<th:block th:substituteby="pageFrame/basicsJs :: copy"></th:block>
+
 <!-- page_script -->
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var warning_Illegal= [[#{warning_Illegal}]];
-    /*]]>*/
-</script>
 <script>
-    //countUp
-    function countNumber(textId,number) {
-        var options = {
-            useEasing: true,
-            useGrouping: true,
-            separator: ',',
-            decimal: '.',
-        };
-        var countNumber = new CountUp(textId, 0, number, 0, 1.5, options);
-        if (!countNumber.error) {
-            countNumber.start();
-        } else {
-            console.error(countNumber.error);
-        }
-    };
-    //计算数量统计
-    $(document).ready(function () {
-        $.get("count/rest/all",
-            {},
-            function(data,status){
-                if(status){
-                    countNumber('countRecord',data.record);
-                    countNumber('countSpecies',data.species);
-                    countNumber('countIdrecord',data.idrecord);
-                    countNumber('countUnidrecord',data.unidrecord);
-                }
-                else{
-                    countNumber('countRecord',0);
-                    countNumber('countSpecies',0);
-                    countNumber('countIdrecord',0);
-                    countNumber('countUnidrecord',0);
-                }
-            });
-    });
-    //searchSpecies
-    function searchSpecies() {
-        var species_name=$("#species_name").val();
-        var _reg1 = /^\s*[\s\S]{1,50}\s*$/ ;
-        var _reg2 = /^[ ]+$/;
-        if (!(_reg1.test(species_name))) {
-            layer.msg(warning_Illegal, function(){
-            });
-        }
-        else if ((_reg2.test(species_name))) {
-            layer.msg(warning_Illegal, function(){
-            });
-        }
-        else{
-            window.location.href=base+"media/image/splist?name="+species_name+"&isid=3";
-        }
-    };
+    function searchOption(searchType) {
+        $('#searchType').text($(searchType).text());
+    }
 </script>
 </body>
 </html>

@@ -1,114 +1,62 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<section th:fragment="copy">
-    <!-- Logo -->
-    <a th:href="@{/}" href="/" class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>B</b>io</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Bio</b>IDE</span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-        <div class="">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                <i class="fa fa-bars"></i>
-            </button>
-            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">Link</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
-                    </div>
-                </form>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<section class="menu cid-menu" once="menu" id="menu1-e" th:fragment="copy">
+    <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <!-- Message -->
-                    <li class="dropdown messages-menu">
-                        <!-- New message amount -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-envelope-o"></i>
-                            <!--<span class="label label-success" th:if="${session.unReadMessageNum} &gt; 0" th:text="${session.unReadMessageNum}"></span>-->
-                        </a>
-                        <!-- Message frame -->
-                        <ul class="dropdown-menu">
-                            <li class="header">You have <span th:text="${session.unReadMessageNum}"></span> new messages</li>
-                            <!--<li th:if="${session.unReadMessageNum} &gt; 0">-->
-                            <ul class="menu">
-                                <li>
-                                    <a href="#">
-                                        <div class="pull-left">
-                                            <img th:src="@{/img/user-none-160x160.jpg}" src="/img/user-none-160x160.jpg" class="img-circle" alt="User Image">
-                                        </div>
-                                        <h4>
-                                            Support Team
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
-                                        <p>系统消息</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li class="footer"><a href="#" th:href="@{/console/message}">See All Messages</a></li>
-                        </ul>
-                    </li>
-                    <!-- User Account-->
-                    <li class="dropdown user user-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img th:src="@{/img/user-none-160x160.jpg}" src="/img/user-none-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">个人中心</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- User image -->
-                            <li class="user-header">
-                                <img th:src="@{/img/user-none-160x160.jpg}" src="/img/user-none-160x160.jpg" class="img-circle" alt="User Image">
-
-                                <p>
-                                    <span sec:authentication="principal.username">UserName</span>
-                                    <small sec:authorize="hasRole('ROLE_SUPER')">超级管理员</small>
-                                </p>
-                            </li>
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">账号信息</a>
-                                </div>
-                                <div class="pull-right">
-                                    <a th:href="@{/logout}" class="btn btn-default btn-flat">注销</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-
-                </ul>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="#">
+                         <img th:src="@{/images/logo.png}" alt="ESPECIES" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" th:href="@{/}" th:text="#{webName}">ESPECIES</a></span>
             </div>
-            <!-- /.navbar-custom-menu -->
         </div>
-        <!-- /.container-fluid -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item">
+                <a class="nav-link link text-white display-4" href="#">
+                </a>
+            </li><li class="nav-item"><a class="nav-link link text-white display-4" href="#">
+            </a></li>
+                <li class="nav-item">
+                    <a class="nav-link link text-white display-4" th:href="@{/}" th:text="#{menu_home}">
+                        首页
+                    </a>
+                </li>
+                <li class="nav-item dropdown open">
+                    <a class="nav-link link text-white dropdown-toggle display-4" href="#" data-toggle="dropdown-submenu" th:text="#{menu_items}">
+                        项目
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="text-white dropdown-item display-4" href="http://sp2000.org.cn/" target="_blank" th:text="#{items_col}">CoL</a>
+                        <a class="text-white dropdown-item display-4" href="http://www.mapbio.org/" target="_blank" th:text="#{items_mapbio}">MapBio</a>
+                        <a class="text-white dropdown-item display-4" href="http://nol.especies.cn/" target="_blank" th:text="#{items_nol}">NoL</a>
+                        <a class="text-white dropdown-item display-4" href="#" th:text="#{items_eol}">EoL</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link text-white display-4" href="#" th:text="#{menu_aboutUs}">
+                        关于我们
+                    </a>
+                </li>
+                <li class="nav-item dropdown open">
+                    <a class="nav-link link text-white dropdown-toggle display-4" href="#" data-toggle="dropdown-submenu" th:text="#{menu_language}">
+                        语言
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="text-white dropdown-item display-4" href="javascript:void(0);" onclick="ToChinese();">中文</a>
+                        <a class="text-white dropdown-item display-4" href="javascript:void(0);" onclick="ToEnglish();">English</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </nav>
 </section>
 </html>
