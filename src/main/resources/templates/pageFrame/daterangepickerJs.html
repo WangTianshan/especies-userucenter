@@ -1,0 +1,80 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+    <script type="text/javascript">
+        //初始化插件语言变量
+        var datetimepickerLanguage="en";
+    </script>
+    <!-- moment -->
+    <script th:src="@{/plugins/moment/min/moment.min.js}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script th:src="@{/plugins/bootstrap-daterangepicker/js/daterangepicker.js}"></script>
+    <th:block th:if="${#locale.getLanguage().equals('zh')}">
+        <script type="text/javascript">
+            //语言变更
+            var daterangepicker_locale={
+                format: 'YYYY-MM-DD',
+                applyLabel : '确定',
+                cancelLabel : '取消',
+                fromLabel : '起始时间',
+                toLabel : '结束时间',
+                customRangeLabel : '自定义',
+                daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+                monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+                firstDay : 1
+            };
+            var daterangepicker_ranges = {
+                '今天': [moment(), moment()],
+                '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '最近7天': [moment().subtract(6, 'days'), moment()],
+                '最近30天': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上个月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                '今年': [moment().startOf('year'), moment()],
+            };
+        </script>
+    </th:block>
+    <th:block th:if="${not #locale.getLanguage().equals('zh')}">
+        <script type="text/javascript">
+            //语言变更
+            var daterangepicker_locale={
+                format: 'YYYY-MM-DD'
+            };
+            var daterangepicker_ranges = {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                'This Year': [moment().startOf('year'), moment()],
+            };
+        </script>
+    </th:block>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var sdate= [[${sdate}]];
+        var edate= [[${edate}]];
+        /*]]>*/
+    </script>
+    <script>
+        $(document).ready(function() {
+            var options = {};
+            options.autoApply = true;
+            options.ranges = daterangepicker_ranges;
+            options.locale=daterangepicker_locale;
+            //options.alwaysShowCalendars = true;
+            options.startDate = sdate;
+            options.endDate = edate;
+            options.opens = "center";
+            options.cancelClass = "btn-info";
+            $('#daterange').daterangepicker(
+                options,
+                function (start, end) {
+                    $('#daterange span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'))
+                }
+            )
+        });
+    </script>
+</th:block>
+</html>

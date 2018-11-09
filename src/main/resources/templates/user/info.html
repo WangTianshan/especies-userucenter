@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--
+    Title:控制台首页
+    Description：控制台首页
+    Author：WangTianshan (王天山)
+    Created date: 2017/9/15 21:35
+    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
+    Version: Html5
+ -->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
+    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content=""/>
+    <!-- 引入css -->
+    <!-- Select2 4.0.3 -->
+    <link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}" type="text/css"/>
+    <!-- basicsCss -->
+    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
+    <!-- Bootstrap-table 1.10.1 -->
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap-table/css/bootstrap-table.css}" type="text/css"/>
+</head>
+<body class="hold-transition skin-leaf fixed sidebar-collapse sidebar-mini">
+<!-- 主界面区 -->
+<div class="wrapper">
+    <!-- 引入Header -->
+    <header id="header" class="main-header">
+        <th:block th:replace="pageFrame/adminHeader :: copy"></th:block>
+    </header>
+    <!-- 引入左侧用户操作菜单-->
+    <th:block th:replace="pageFrame/leftMenu :: copy"></th:block>
+    <!-- 引入logoutModal -->
+    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
+    <!-- 显示区 -->
+    <div class="content-wrapper">
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <h3>
+                <span th:text="#{mydata}">我的数据</span><br/>
+                <small th:text="#{mydata_subtitle}">在这里您可以管理您自己的相关数据</small>
+            </h3>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/}" href="/"><i class="fa fa-home"></i> <span th:text="#{navigation_home}">Home</span></a></li>
+                <li class="active"><i class="fa fa-user"></i> <span th:text="#{mydata}">我的数据</span></li>
+            </ol>
+        </section>
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="box box-leaf">
+                        <div class="box-body box-leaf">
+                            <img th:if="${not #lists.isEmpty(thisUser.profilePicture)}" class="quadrate profile-user-img img-responsive img-circle" th:src="${thisUser.profilePicture}" alt="User profile picture">
+                            <img th:if="${#lists.isEmpty(thisUser.profilePicture)}" class="profile-user-img img-responsive img-circle" th:src="@{/img/user-none-160x160.jpg}" alt="User profile picture">
+                            <h3 th:text="${thisUser.nickname}" class="profile-username text-center">昵称</h3>
+                            <p th:text="${thisUser.email}" class="text-muted text-center">邮箱</p>
+                            <hr/>
+                            <a th:href="@{/user/myinfo}" class="btn btn-leaf btn-block"><b th:text="#{my_userinfo}">查看个人主页</b></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8">
+                    <div class="box box-leaf">
+                        <div class="box-body box-leaf">
+                            <div class="col-lg-6 col-md-6">
+                                <h2>
+                                    <a th:href="@{/user/record}"><p><small th:text="#{observation_records}">观测记录</small></p></a>
+                                    <span id="countRecord" class="text-leaf"></span> <small th:if="${#locale.getLanguage().equals('zh')}">条</small>
+                                </h2>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <h2>
+                                    <p><small th:text="#{species}">记录物种</small></p>
+                                    <span id="countSpecies" class="text-leaf"></span> <small th:if="${#locale.getLanguage().equals('zh')}">种</small>
+                                </h2>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <hr/>
+                                <h2>
+                                    <a th:href="@{/user/media/picture}"><p><small th:text="#{count_images}+' :'">影像记录</small></p></a>
+                                    <small th:text="#{identified}">已鉴定</small> <span id="countIdrecord" class="text-leaf"></span>
+                                    <small th:text="#{identifying}">待鉴定</small> <span id="countUnidrecord" class="text-leaf"></span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                            <li class="pull-left header"><a th:href="@{/user/media/picture}"><i class="fa fa-camera-retro"></i> <span th:text="#{my_uploadmedia}">my_uploadmedia</span></a></li>
+                        </ul>
+                        <div id="media_chart" style="width: 100%;height:300px;"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                            <li class="pull-left header"><a th:href="@{/user/idrecord}"><i class="fa fa-tag"></i> <span th:text="#{my_idrecord}">我的鉴定记录</span></a></li>
+                        </ul>
+                        <div id="identification_chart" style="width: 100%;height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs pull-right ui-sortable-handle">
+                            <li class="pull-left header"><a th:href="@{/user/record}"><i class="glyphicon glyphicon-map-marker"></i> <span th:text="#{my_record}">我的观测记录</span></a></li>
+                        </ul>
+                        <div id="record_chart" style="width: 100%;height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <th:block th:replace="pageFrame/basicsFooter :: copy"></th:block>
+    </footer>
+</div>
+<!-- 引入js -->
+<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var chart1_name= [[#{my_uploadmedia}]];
+    /*]]>*/
+</script>
+<!-- echarts-3.1.10 -->
+<script th:src="@{/plugins/echarts/echarts.min.js}"></script>
+<!-- page_script -->
+<!-- countUp -->
+<script th:src="@{/plugins/countUp/countUp.min.js}" src="PACE/PACE/pace.min.js"></script>
+<script th:src="@{/js/userInfo.js}"></script>
+<script>
+    //countUp
+    function countNumber(textId,number) {
+        var options = {
+            useEasing: true,
+            useGrouping: true,
+            separator: ',',
+            decimal: '.',
+        };
+        var countNumber = new CountUp(textId, 0, number, 0, 1.5, options);
+        if (!countNumber.error) {
+            countNumber.start();
+        } else {
+            console.error(countNumber.error);
+        }
+    };
+    //计算数量统计
+    $(document).ready(function () {
+        $.get("user/rest/count/all",
+            {},
+            function(data,status){
+                if(status){
+                    countNumber('countRecord',data.record);
+                    countNumber('countSpecies',data.species);
+                    countNumber('countIdrecord',data.idrecord);
+                    countNumber('countUnidrecord',data.unidrecord);
+                }
+                else{
+                    countNumber('countRecord',0);
+                    countNumber('countSpecies',0);
+                    countNumber('countIdrecord',0);
+                    countNumber('countUnidrecord',0);
+                }
+            });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+    <div class="index_footer">
+        <div class="container">
+            <div class="col-md-4 footer-form">
+                <h5 th:text="#{about_us}">About us</h5>
+                <h6 th:utext="#{abstract_text}" class="text">
+                    这里是摘要文字。
+                </h6>
+                <p><img th:src="@{/img/logo-big.png}" class="img-responsive" style="max-width:180px"/></p>
+            </div>
+            <div class="col-md-4 footer-form">
+                <h5 th:text="#{useful_links}">Useful Links</h5>
+                <h6>
+                    <ul class="links-list">
+                        <li><a th:href="@{/documentation}" target="_blank">使用说明</a></li>
+                        <li><a href="http://www.sp2000.org.cn/" target="_blank">Catalogue of Life</a></li>
+                        <li><a href="http://www.catalogueoflife.org/col/" target="_blank">Catalogue of Life Annual Checklist</a></li>
+                    </ul>
+                </h6>
+            </div>
+            <div class="col-md-4 footer-form">
+                <h5 th:text="#{contact}">Contact</h5>
+                <h6>
+                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                    <span th:text="#{address}">
+                        北京市朝阳区北辰西路1号院5号
+                    </span>
+                    <br/><br/>
+                    <span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span>
+                    Tel: +86-10-64807129 <br/><br/>
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    Email: linct@ioz.ac.cn <br/><br/>
+                </h6>
+            </div>
+            <p class="row">
+                <h6>
+                    <strong>© Copyright 2017-2018 <a target="_blank" href="http://www.biodinfo.org/" th:text="#{group}">The Research Group of Biodiversity Informatics</a></strong> <span th:text="#{copyright}">All rights</span>
+                </h6>
+            </p>
+        </div>
+    </div>
+</th:block>
+</html>

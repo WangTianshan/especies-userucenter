@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<!--
+    Title:控制台首页
+    Description：控制台首页
+    Author：WangTianshan (王天山)
+    Created date: 2017/9/15 21:35
+    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
+    Version: Html5
+ -->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
+    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content=""/>
+    <!-- 引入css -->
+    <!-- basicsCss -->
+    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
+</head>
+<body class="hold-transition skin-leaf fixed sidebar-collapse sidebar-mini">
+<!-- 主界面区 -->
+<div class="wrapper">
+    <!-- 引入Header -->
+    <header id="header" class="main-header">
+        <th:block th:replace="pageFrame/adminHeader :: copy"></th:block>
+    </header>
+    <!-- 引入左侧用户操作菜单-->
+    <th:block th:replace="pageFrame/leftMenu :: copy"></th:block>
+    <!-- 引入logoutModal -->
+    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
+    <!-- 显示区 -->
+    <div class="content-wrapper">
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <h3>
+                <span th:text="#{my_userinfo}">我的个人信息</span><br/>
+                <small th:text="#{mydata_subtitle}">在这里您可以管理您自己的相关数据</small>
+            </h3>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/user/info}" href="/"><i class="fa fa-user"></i> <span th:text="#{mydata}">我的数据</span></a></li>
+                <li class="active"><i class="fa fa-"></i> <span th:text="#{my_userinfo}">我的个人信息</span></li>
+            </ol>
+        </section>
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="well row">
+                <form id="thisForm" class="form-horizontal"
+                      enctype="multipart/form-data"
+                      th:action="@{/user/myinfo/save}"
+                      method="post">
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-group hidden">
+                            <label>文件选择</label> <input id="file" name="file" type="file">
+                        </div>
+                        <div id="img-view">
+                            <img th:if="${not #lists.isEmpty(thisUser.profilePicture)}" class="quadrate profile-user-img img-responsive img-circle" th:src="${thisUser.profilePicture}" alt="User profile picture">
+                            <img th:if="${#lists.isEmpty(thisUser.profilePicture)}" class="profile-user-img img-responsive img-circle" th:src="@{/img/user-none-160x160.jpg}" alt="User profile picture">
+                        </div>
+                        <div class="text-center">
+                            <button id="imageView" type="button" class="btn btn-xs btn-leaf" th:text="#{operation_edit}" data-toggle="tooltip" data-placement="bottom" th:title="#{profile_size}">编辑</button>
+
+                        </div>
+                        <br/>
+                        <div class="form-group text-center">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span th:text="#{register_nickname}"></span>
+                                </div>
+                                <input th:value="${thisUser.nickname}" type="text" class="form-control" id="nickname" name="nickname" th:placeholder="'1~15 '+#{placeholder_char}" placeholder="0～45个字符" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9 col-md-9">
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label" th:text="#{table_address}">常住地址:</label>
+                            <div class="col-sm-10 col-md-10">
+                                <input th:value="${thisUser.address}" type="text" class="form-control" id="address" name="address" th:placeholder="'0~450 '+#{placeholder_char}" placeholder="0～45个字符" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="introduction" class="col-sm-2 control-label" th:text="#{table_introduction}">自我介绍:</label>
+                            <div class="col-sm-10 col-md-10">
+                                <textarea th:text="${thisUser.introduction}" id="introduction" name="introduction" class="form-control" rows="15" th:placeholder="'0~3000 '+#{placeholder_char}" placeholder="1～3000个字符"></textarea>
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="pull-right">
+                                    <a class="btn btn-app" th:href="@{/user/myinfo}" href="/user/myinfo">
+                                        <i class="fa fa-chevron-left"></i> <span th:text="#{operation_cancel}">取消编辑</span>
+                                    </a>
+                                    <button type="submit" class="btn btn-app">
+                                        <i class="fa fa-check"></i> <span th:text="#{operation_submit}">提交</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <th:block th:replace="pageFrame/basicsFooter :: copy"></th:block>
+    </footer>
+</div>
+<!-- 引入js -->
+<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
+<!-- page_script -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var warning_Illegal= [[#{warning_Illegal}]];
+    var warning_empty= [[#{warning_empty}]];
+    /*]]>*/
+</script>
+<!-- bootstrapValidator -->
+<script th:src="@{/plugins/bootstrapValidator/js/bootstrapValidator.min.js}"></script>
+<th:block th:if="${#locale.getLanguage().equals('zh')}">
+    <script th:src="@{/plugins/bootstrapValidator/js/language/zh_CN.js}"></script>
+</th:block>
+<script>
+    $("#imageView").click(function() {
+        //模拟点击File
+        $("#file").click();
+    });
+    document.getElementById('file').addEventListener('change',function(e){
+        var files = this.files;
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = function(e){
+            var html="<img src='"+ e.target.result + "' class='quadrate profile-user-img img-responsive img-circle' id='img-view-area'/>";
+            var mb = (e.total/1024)/1024;
+            if(mb>= 50){
+                alert('文件大小大于50M');
+                return;
+            }
+            document.getElementById('img-view').innerHTML = html;
+        }
+    });
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('#thisForm').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon ',
+                invalid: 'glyphicon ',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                'nickname': {
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 1,
+                            max: 15
+                        },
+                    }
+                },
+                'address': {
+                    validators: {
+                        stringLength: {
+                            min: 0,
+                            max: 450
+                        },
+                    }
+                },
+                'introduction': {
+                    validators: {
+                        stringLength: {
+                            min: 0,
+                            max: 3000
+                        },
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

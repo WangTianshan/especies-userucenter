@@ -1,0 +1,45 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<section th:fragment="copy">
+    <aside class="main-sidebar" th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
+        <!-- sidebar-->
+        <section class="sidebar">
+            <!-- sidebar menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <!-- User操作选项 -->
+                <li class="header" th:text="#{workstation_user}">User操作选项</li>
+                    <li><a th:href="@{/user/dataset}" href="user/dataset"><i class="fa fa-cubes"></i> <span th:text="#{my_dataset}">我的数据集</span></a></li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-camera-retro"></i> <span th:text="#{my_uploadmedia}">我的上传媒体</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="hidden"><a href="javascript:void(0)" onclick="building();"><i class="fa fa-camera"></i> <span th:text="#{my_photos}">实地照片</span></a></li>
+                            <li><a th:href="@{/user/media/picture}" href="#"><i class="fa fa-photo"></i> <span th:text="#{my_pictures}">图片</span></a></li>
+                            <li><a href="javascript:void(0)" onclick="building();"><i class="fa fa-film"></i> <span th:text="#{my_videos}">视频</span></a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/user/record}" href="user/record"><i class="glyphicon glyphicon-map-marker"></i> <span th:text="#{my_record}">我的观测记录</span></a></li>
+                    <li><a th:href="@{/user/idrecord}" href="user/record"><i class="fa fa-tag"></i> <span th:text="#{my_idrecord}">我的鉴定记录</span></a></li>
+                    <li><a th:href="@{/user/myinfo}" href="user/myinfo"><i class="fa fa-user"></i> <span th:text="#{my_userinfo}">我的个人信息</span></a></li>
+                <!-- 管理员操作选项 -->
+                <li sec:authorize="hasRole('ROLE_SUPER')" class="header">管理员操作选项</li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/user}" href="/super/user"><i class="fa fa-users"></i> <span> 用户管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/message}" href="/super/message"><i class="fa fa-envelope"></i> <span> 消息管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/dataset}" href="/super/dataset"><i class="fa fa-cubes"></i> <span> 数据集管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/record}" href="team"><i class="glyphicon glyphicon-map-marker"></i> <span> 观测记录管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/media}" href="team"><i class="fa fa-camera-retro"></i> <span> 媒体管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/idrecord}" href="team"><i class="fa fa-tag"></i> <span> 鉴定管理</span></a></li>
+                    <li sec:authorize="hasRole('ROLE_SUPER')" ><a th:href="@{/super/license}" href="team"><i class="fa fa-copyright"></i> <span> 版权管理</span></a></li>
+                <!-- 关于我们 -->
+                <li class="header">关于我们</li>
+                    <li><a href="#"><i class="fa fa-users text-green"></i> <span>开发团队</span></a></li>
+            </ul>
+        </section>
+    </aside>
+</section>
+</html>

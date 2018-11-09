@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--
+    Title:控制台首页
+    Description：控制台首页
+    Author：WangTianshan (王天山)
+    Created date: 2017/9/15 21:35
+    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
+    Version: Html5
+ -->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
+    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content=""/>
+    <!-- 引入css -->
+    <!-- basicsCss -->
+    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
+    <!-- animate -->
+    <link rel="stylesheet" th:href="@{/plugins/animate.css/animate.min.css}">
+    <!-- jquery.magnific-popup -->
+    <link rel="stylesheet" th:href="@{/plugins/jquery.magnific-popup/magnific-popup.css}">
+    <style>
+    </style>
+</head>
+<body class="hold-transition skin-leaf fixed layout-top-nav">
+<!-- 主界面区 -->
+<div class="wrapper">
+    <!-- 引入Header -->
+    <header id="header" class="main-header">
+        <th:block th:replace="pageFrame/basicsHeader :: copy"></th:block>
+    </header>
+    <!-- 引入loginModal -->
+    <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/loginModal :: copy"></th:block>
+    <!-- 引入logoutModal -->
+    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
+    <!-- 显示区 -->
+    <div class="content-wrapper">
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="col-lg-12">
+                <h3>
+                    <span th:text="${thisUser.nickname}">name</span><br/>
+                    <small th:text="${thisUser.email}">email</small>
+                </h3>
+            </div>
+        </section>
+        <section class="content container">
+            <div class="col-lg-3 col-md-3 col-sm-4">
+                <div class="box box-leaf">
+                    <div class="box-body box-leaf">
+                        <img th:if="${not #lists.isEmpty(thisUser.profilePicture)}" class="quadrate profile-user-img img-responsive img-circle" th:src="${thisUser.profilePicture}" alt="User profile picture">
+                        <img th:if="${#lists.isEmpty(thisUser.profilePicture)}" class="profile-user-img img-responsive img-circle" th:src="@{/img/user-none-160x160.jpg}" alt="User profile picture">
+                        <h3 th:text="${thisUser.nickname}" class="profile-username text-center">昵称</h3>
+                        <p th:text="${thisUser.email}" class="text-muted text-center">邮箱</p>
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b th:text="#{observation_records}">观测记录</b>
+                                <a id="countRecord" class="pull-right">0</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b th:text="#{species}">记录物种</b>
+                                <a id="countSpecies" class="pull-right">0</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b th:text="#{count_images}+':'">影像记录</b>
+                                <small th:text="#{identified}">影像记录</small>
+                                <a id="countIdrecord" class="pull-right">0</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b th:text="#{count_images}+':'">影像记录</b>
+                                <small th:text="#{identifying}">影像记录</small>
+                                <a id="countUnidrecord" class="pull-right">0</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box box-leaf">
+                    <div class="box-body">
+                        <strong><i class="fa fa-user margin-r-5"></i> <span th:text="#{category}">身份</span></strong>
+                        <th:block th:switch="${thisUser.role}">
+                            <th:block th:case="'ROLE_SUPER'">
+                                <p class="text-muted" th:text="#{role_super}">超级管理员</p>
+                            </th:block>
+                            <th:block th:case="'ROLE_USER'">
+                                <p class="text-muted" th:text="#{role_user}">普通用户</p>
+                            </th:block>
+                            <th:block th:case="*">
+                                <p class="text-muted">-</p>
+                            </th:block>
+                        </th:block>
+                        <hr>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> <span th:text="#{table_address}">常住地址</span></strong>
+                        <p class="text-muted" th:text="${thisUser.address}">
+                            中国, 北京, 朝阳区
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-file-text-o margin-r-5"></i> <span th:text="#{table_introduction}">自我介绍</span></strong>
+                        <p class="text-muted" th:text="${thisUser.introduction}">
+                            研究方向为XXXX
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-8">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li id="imageTab" class="active"><a href="#tab_1" data-toggle="tab" th:text="#{topmenu_images}">影像记录</a></li>
+                        <li id="recordTab"><a href="#tab_2" data-toggle="tab" th:text="#{observation_records}">观测记录</a></li>
+                        <li><a href="#tab_3" data-toggle="tab" th:text="#{observation_map}">笔记</a></li>
+                        <li class="hidden"><a href="#tab_4" data-toggle="tab">足迹</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="grid" id="imageFrame">
+                            </div>
+                            <p>&nbsp;</p>
+                            <div id="imagePageFrame">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_2">
+                            <div class="grid" id="recordFrame">
+                            </div>
+                            <p>&nbsp;</p>
+                            <div id="recordPageFrame">
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_3">
+                            <div>
+                                <a class="btn btn-default btn-sm" th:href="@{/user/record/storymap?mark=}+${thisUser.id}" target="_blank" th:text="#{more}"></a>
+                                <p>&nbsp;</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_4">
+                            <div>
+                                足迹
+                                <i class="fa fa-refresh fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="">
+        <span th:replace="pageFrame/basicsFooter :: copy" />
+    </footer>
+</div>
+<!-- 引入js -->
+<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
+<th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
+    <th:block th:replace="user/loginJs :: copy"></th:block>
+    <th:block th:if="${not #lists.isEmpty(activeMsg)}">
+        <th:block th:switch="${activeStatus}">
+            　　<script th:case="true">
+            $(document).ready(function() {
+                $('#loginIcon').click();
+            });
+        </script>
+            　　<th:block th:case="false">
+            <input id="activeMsg" class="hidden" th:value="${activeMsg}" readonly="readonly"></input>
+            　　<script>
+            $(document).ready(function() {
+                layer.msg($('#activeMsg').val(), function(){
+                });
+            });
+        </script>
+        </th:block>
+        </th:block>
+    </th:block>
+</th:block>
+<!-- masonry -->
+<script th:src="@{/plugins/masonry/masonry.pkgd.min.js}"></script>
+<!-- countUp -->
+<script th:src="@{/plugins/countUp/countUp.min.js}"></script>
+<!-- imagesloaded -->
+<script th:src="@{/plugins/imagesloaded/imagesloaded.pkgd.min.js}"></script>
+<!-- jquery.tmpl -->
+<script th:src="@{/plugins/jquery.tmpl/jquery.tmpl.min.js}"></script>
+<!-- wow -->
+<script th:src="@{/plugins/wow/wow.min.js}"></script>
+<!-- jquery.magnific-popup -->
+<script th:src="@{/plugins/jquery.magnific-popup/jquery.magnific-popup.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var userId= [[${thisUser.id}]];
+    /*]]>*/
+</script>
+<script th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="imageList" type="text/x-jquery-tmpl">
+    {{each(i,media) rows}}
+        <div class="grid-item grid-item-media col-lg-3 col-md-4 col-sm-6">
+            <div class="waterfull-quadrate wow bounceIn">
+                <div class="animate-box">
+                    <a href="{{= media.middleUrl}}" class="image-popup board-img">
+                        <img src="{{= media.miniUrl}}" class="mini-img" style="width: 100%;" alt=""/>
+                    </a>
+                </div>
+                <div class="item-text">
+                    {{if media.isid==1}}
+                        <a href="user/media/picture/{{= media.id}}" target="_blank">
+                            <span>鉴定中...</span>
+                        </a>
+                        <a class="pull-right waterfull-subtitle" href="user/media/identify/{{= media.id}}" target="_blank">
+                            <span class="btn btn-xs btn-warning" th:text="#{tab_idinfo}">我来鉴定</span>
+                        </a>
+                    {{/if}}
+                    {{if media.isid==3}}
+                        <a href="user/media/picture/{{= media.id}}" target="_blank">
+                            <span><i>{{= media.species}}</i> {{= media.speciesCn}}</span>
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="imageList" type="text/x-jquery-tmpl">
+    {{each(i,media) rows}}
+        <div class="grid-item grid-item-media col-lg-3 col-md-4 col-sm-6">
+            <div class="waterfull-quadrate wow bounceIn">
+                <div class="animate-box">
+                    <a href="{{= media.middleUrl}}" class="image-popup board-img">
+                        <img src="{{= media.miniUrl}}" class="mini-img" style="width: 100%;" alt=""/>
+                    </a>
+                </div>
+                <div class="item-text">
+                    {{if media.isid==1}}
+                        <a href="javascript:void(0)" onclick="pleaseLogin();">
+                            <span>鉴定中...</span>
+                        </a>
+                    {{/if}}
+                    {{if media.isid==3}}
+                        <a href="javascript:void(0)" onclick="pleaseLogin();">
+                            <span><i>{{= media.species}}</i> {{= media.speciesCn}}</span>
+                        </a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+
+<script th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="recordList" type="text/x-jquery-tmpl">
+    {{each(i,record) rows}}
+        <div class="grid-item grid-item-record col-lg-3 col-md-4 col-sm-6">
+            <div class="waterfull-quadrate wow bounceIn">
+                <div class="animate-box">
+                    <a href="user/record/show/{{= record.id}}" target="_blank" class="image-popup board-img">
+                        <img src="{{= record.image}}" class="mini-img" style="width: 100%;" alt=""/>
+                    </a>
+                </div>
+                <div class="item-text">
+                    <a href="user/record/show/{{= record.id}}" target="_blank">
+                        <span>{{= record.rdate}} {{= record.locality}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="recordList" type="text/x-jquery-tmpl">
+    {{each(i,record) rows}}
+        <div class="grid-item grid-item-record col-lg-3 col-md-4 col-sm-6">
+            <div class="waterfull-quadrate wow bounceIn">
+                <div class="animate-box">
+                    <a href="javascript:void(0)" onclick="pleaseLogin();" class="image-popup board-img">
+                        <img src="{{= record.image}}" class="mini-img" style="width: 100%;" alt=""/>
+                    </a>
+                </div>
+                <div class="item-text">
+                    <a href="javascript:void(0)" onclick="pleaseLogin();">
+                        <span>{{= record.rdate}} {{= record.locality}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</script>
+
+<script th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="imagePage" type="text/x-jquery-tmpl">
+    {{if thisPage < totalPage}}
+        <div style="text-align: center">
+            <a class="btn bg-leaf btn-block" href="javascript:void(0)" onclick="showImage({{= thisPage*30}})">
+                <span>
+                    <i class="fa fa-plus"></i> <span th:text="#{addmore}">加载更多</span>
+                </span>
+            </a>
+        </div>
+    {{/if}}
+</script>
+
+<script th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="imagePage" type="text/x-jquery-tmpl">
+    <div style="text-align: center">
+        <a class="btn bg-leaf btn-block" href="javascript:void(0)" onclick="pleaseLogin();">
+            <span>
+                <i class="fa fa-plus"></i> <span th:text="#{addmore}">加载更多</span>
+            </span>
+        </a>
+    </div>
+</script>
+
+<script th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="recordPage" type="text/x-jquery-tmpl">
+    {{if thisPage < totalPage}}
+        <div style="text-align: center">
+            <a class="btn bg-leaf btn-block" href="javascript:void(0)" onclick="showRecord({{= thisPage*30}})">
+                <span>
+                    <i class="fa fa-plus"></i> <span th:text="#{addmore}">加载更多</span>
+                </span>
+            </a>
+        </div>
+    {{/if}}
+</script>
+
+<script th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="recordPage" type="text/x-jquery-tmpl">
+    <div style="text-align: center">
+        <a class="btn bg-leaf btn-block" href="javascript:void(0)" onclick="pleaseLogin();">
+            <span>
+                <i class="fa fa-plus"></i> <span th:text="#{addmore}">加载更多</span>
+            </span>
+        </a>
+    </div>
+</script>
+
+<script id="loading" type="text/x-jquery-tmpl">
+    <i class="fa fa-refresh fa-spin"></i>
+</script>
+
+<script>
+    //countUp
+    function countNumber(textId,number) {
+        var options = {
+            useEasing: true,
+            useGrouping: true,
+            separator: ',',
+            decimal: '.',
+        };
+        var countNumber = new CountUp(textId, 0, number, 0, 1.5, options);
+        if (!countNumber.error) {
+            countNumber.start();
+        } else {
+            console.error(countNumber.error);
+        }
+    };
+    //显示媒体
+    function showImage(offset) {
+        //$("#imageFrame").empty();
+        $("#imagePageFrame").empty();
+        $("#loading").tmpl().appendTo("#imagePageFrame");
+        $.get("media/rest/thisUser",
+            {
+                userId:userId,
+                limit:30,
+                search:"",
+                offset:offset,
+                async:true
+            },
+            function(data,status){
+                if(status){
+                    //$("#imageFrame").empty();
+                    $("#imageList").tmpl(data).appendTo("#imageFrame").ready(function () {
+                        //$("#imagePageFrame").empty();
+                        $('#imageFrame').imagesLoaded( function() {
+                            new Masonry('.grid', {
+                                itemSelector: '.grid-item-media'
+                            });
+                            $('.board-img').magnificPopup({
+                                type: 'image'
+                            });
+                            $('body,html').animate({'scrollTop':$(window).scrollTop()+10},100);
+                        });
+                    });
+                    $("#imagePageFrame").empty();
+                    $("#imagePage").tmpl([{totalPage:buildTotalPage(data.total),thisPage:buildPage(data.page)}]).appendTo("#imagePageFrame");
+                }
+            });
+    };
+
+    //显示观测记录
+    function showRecord(offset) {
+        $("#recordPageFrame").empty();
+        $("#loading").tmpl().appendTo("#recordPageFrame");
+        $.get("record/rest/thisUser",
+            {
+                userId:userId,
+                limit:30,
+                search:"",
+                offset:offset,
+                async:true
+            },
+            function(data,status){
+                if(status){
+                    $("#recordList").tmpl(data).appendTo("#recordFrame").ready(function () {
+                        //$("#imagePageFrame").empty();
+                        $('#recordFrame').imagesLoaded( function() {
+                            new Masonry('.grid', {
+                                itemSelector: '.grid-item-record'
+                            });
+                            $('body,html').animate({'scrollTop':$(window).scrollTop()+10},100);
+                        });
+                    });
+                    $("#recordPageFrame").empty();
+                    $("#recordPage").tmpl([{totalPage:buildTotalPage(data.total),thisPage:buildPage(data.page)}]).appendTo("#recordPageFrame");
+                }
+            });
+    };
+
+    function buildTotalPage(total) {
+        return Math.ceil((total/30));
+    }
+
+    function buildPage(offset) {
+        return Math.ceil((offset/30)+1);
+    }
+
+    $(document).ready(function () {
+        //计算数量统计
+        $.get("count/rest/thisUser/"+userId,
+            {},
+            function(data,status){
+                if(status){
+                    countNumber('countRecord',data.record);
+                    countNumber('countSpecies',data.species);
+                    countNumber('countIdrecord',data.idrecord);
+                    countNumber('countUnidrecord',data.unidrecord);
+                }
+                else{
+                    countNumber('countRecord',0);
+                    countNumber('countSpecies',0);
+                    countNumber('countIdrecord',0);
+                    countNumber('countUnidrecord',0);
+                }
+            });
+        //显示动画
+        new WOW().init();
+        //显示媒体
+        showImage(0);
+    });
+
+    $("#imageTab").click(function(){
+        //显示媒体
+        $("#imageFrame").empty();
+        showImage(0);
+    });
+
+    $("#recordTab").click(function(){
+        //显示记录
+        $("#recordFrame").empty();
+        showRecord(0);
+    });
+
+</script>
+</body>
+</html>

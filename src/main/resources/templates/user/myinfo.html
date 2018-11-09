@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<!--
+    Title:控制台首页
+    Description：控制台首页
+    Author：WangTianshan (王天山)
+    Created date: 2017/9/15 21:35
+    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
+    Version: Html5
+ -->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
+    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content=""/>
+    <!-- 引入css -->
+    <!-- basicsCss -->
+    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
+</head>
+<body class="hold-transition skin-leaf fixed sidebar-collapse sidebar-mini">
+<!-- 主界面区 -->
+<div class="wrapper">
+    <!-- 引入Header -->
+    <header id="header" class="main-header">
+        <th:block th:replace="pageFrame/adminHeader :: copy"></th:block>
+    </header>
+    <!-- 引入左侧用户操作菜单-->
+    <th:block th:replace="pageFrame/leftMenu :: copy"></th:block>
+    <!-- 引入logoutModal -->
+    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
+    <!-- 显示区 -->
+    <div class="content-wrapper">
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <h3>
+                <span th:text="#{my_userinfo}">我的个人信息</span><br/>
+                <small th:text="#{mydata_subtitle}">在这里您可以管理您自己的相关数据</small>
+            </h3>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/user/info}" href="/"><i class="fa fa-user"></i> <span th:text="#{mydata}">我的数据</span></a></li>
+                <li class="active"><i class="fa fa-"></i> <span th:text="#{my_userinfo}">我的个人信息</span></li>
+            </ol>
+        </section>
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="box box-leaf">
+                        <div class="box-body box-leaf">
+                            <img th:if="${not #lists.isEmpty(thisUser.profilePicture)}" class="quadrate profile-user-img img-responsive img-circle" th:src="${thisUser.profilePicture}" alt="User profile picture">
+                            <img th:if="${#lists.isEmpty(thisUser.profilePicture)}" class="profile-user-img img-responsive img-circle" th:src="@{/img/user-none-160x160.jpg}" alt="User profile picture">
+                            <h3 th:text="${thisUser.nickname}" class="profile-username text-center">昵称</h3>
+                            <p th:text="${thisUser.email}" class="text-muted text-center">邮箱</p>
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b th:text="#{observation_records}">观测记录</b>
+                                    <a id="countRecord" class="pull-right">0</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b th:text="#{species}">记录物种</b>
+                                    <a id="countSpecies" class="pull-right">0</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b th:text="#{count_images}+':'">影像记录</b>
+                                    <small th:text="#{identified}">影像记录</small>
+                                    <a id="countIdrecord" class="pull-right">0</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b th:text="#{count_images}+':'">影像记录</b>
+                                    <small th:text="#{identifying}">影像记录</small>
+                                    <a id="countUnidrecord" class="pull-right">0</a>
+                                </li>
+                            </ul>
+                            <a th:href="@{/personal/}+${thisUser.id}" target="_blank" class="btn btn-leaf btn-block"><b th:text="#{my_page}">查看个人主页</b></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8">
+                    <div class="box box-leaf">
+                        <div class="box-header with-border">
+                            <h3 class="box-title" th:text="#{aboutme}">About Me</h3>
+                        </div>
+                        <div class="box-body">
+                            <strong><i class="fa fa-user margin-r-5"></i> <span th:text="#{category}">身份</span></strong>
+                            <th:block th:switch="${thisUser.role}">
+                                <th:block th:case="'ROLE_SUPER'">
+                                    <p class="text-muted" th:text="#{role_super}">超级管理员</p>
+                                </th:block>
+                                <th:block th:case="'ROLE_USER'">
+                                    <p class="text-muted" th:text="#{role_user}">普通用户</p>
+                                </th:block>
+                                <th:block th:case="*">
+                                    <p class="text-muted">-</p>
+                                </th:block>
+                            </th:block>
+                            <hr>
+                            <strong><i class="fa fa-map-marker margin-r-5"></i> <span th:text="#{table_address}">常住地址</span></strong>
+                            <p class="text-muted" th:text="${thisUser.address}">
+                                中国, 北京, 朝阳区
+                            </p>
+                            <hr>
+                            <strong><i class="fa fa-file-text-o margin-r-5"></i> <span th:text="#{table_introduction}">自我介绍</span></strong>
+                            <p class="text-muted" th:text="${thisUser.introduction}">
+                                研究方向为XXXX
+                            </p>
+                            <hr>
+                            <a th:href="@{/user/editmyinfo}" class="btn btn-leaf btn-block"><b th:text="#{operation_edit}">编辑</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <th:block th:replace="pageFrame/basicsFooter :: copy"></th:block>
+    </footer>
+</div>
+<!-- 引入js -->
+<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
+<!-- page_script -->
+<!-- countUp -->
+<script th:src="@{/plugins/countUp/countUp.min.js}" src="PACE/PACE/pace.min.js"></script>
+<script>
+    //countUp
+    function countNumber(textId,number) {
+        var options = {
+            useEasing: true,
+            useGrouping: true,
+            separator: ',',
+            decimal: '.',
+        };
+        var countNumber = new CountUp(textId, 0, number, 0, 1.5, options);
+        if (!countNumber.error) {
+            countNumber.start();
+        } else {
+            console.error(countNumber.error);
+        }
+    };
+    //计算数量统计
+    $(document).ready(function () {
+        $.get("user/rest/count/all",
+            {},
+            function(data,status){
+                if(status){
+                    countNumber('countRecord',data.record);
+                    countNumber('countSpecies',data.species);
+                    countNumber('countIdrecord',data.idrecord);
+                    countNumber('countUnidrecord',data.unidrecord);
+                }
+                else{
+                    countNumber('countRecord',0);
+                    countNumber('countSpecies',0);
+                    countNumber('countIdrecord',0);
+                    countNumber('countUnidrecord',0);
+                }
+            });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <div class="collapse navbar-collapse pull-left" id="navbar-collapse" th:fragment="copy">
+        <ul class="nav navbar-nav">
+            <li>
+                <a th:href="@{/}" href="#">
+                    <b> NoL</b>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{topmenu_records}">记录</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu3">
+                    <li><a href="record/list" th:text="#{observation_records}">观测记录</a></li>
+                    <li th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}"class="divider"></li>
+                    <!--<li th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}"><a href="user/map/species" th:text="#{observation_map}">观测地图</a></li>-->
+                    <li th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}"class="divider"></li>
+                    <li th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}"><a href="user/record/storymap" th:text="#{storymap}">观测笔记</a></li>
+                    <li class="hidden divider"></li>
+                    <li class="hidden"><a href="javascript:void(0)" onclick="building();" th:text="#{observation_footprint}">我的观测足迹</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{topmenu_images}">图片浏览</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu1">
+                    <li><a href="media/image/list?groups=1" th:text="#{bird}">鸟类</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=2" th:text="#{beast}">兽类</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=3" th:text="#{bug}">虫</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=4" th:text="#{fish}">鱼类</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=5" th:text="#{amphibian_reptilian}">两栖爬行类</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=6" th:text="#{plant}">植物</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=7" th:text="#{fungus}">菌物</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=8" th:text="#{other}">其他</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/list?groups=9" th:text="#{unclassified}">未分类</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span th:text="#{topmenu_identify}">鉴定工作室</span> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu2">
+                    <li><a href="media/image/idlist?isid=1" th:text="#{identifying}">鉴定中</a></li>
+                    <li class="divider"></li>
+                    <li><a href="media/image/idlist?isid=3" th:text="#{identified}">鉴定完成</a></li>
+                </ul>
+            </li>
+            <li th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{tools}">工具</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu4">
+                    <li><a href="user/autoidentify" th:text="#{auto_identification}">物种自动识别</a></li>
+                    <li class="divider"></li>
+                    <li><a href="http://www.sp2000.org.cn/" target="_blank" th:text="#{colchina}">中国生物物种名录</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0)" onclick="building();" th:text="#{life_encyclopedia}">CasEearth生命大百科</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{language}">语言</span> <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu5">
+                    <li><a class="dropdown-item" href="javascript:void(0);" onclick="ToChinese();">中文</a></li>
+                    <li class="divider"></li>
+                    <li> <a class="dropdown-item" href="javascript:void(0);" onclick="ToEnglish();">English</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--
+    Title:首页
+    Description：首页
+    Author：WangTianshan (王天山)
+    Created date: 2017/12/01 21:35
+    Copyright: The Research Group of Biodiversity Informatics (BiodInfo Group) - 中国科学院动物研究所生物多样性信息学研究组
+    Version: Html5
+ -->
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title th:text="#{web_title}">AnimalSeeker 发现并记录你身边的小动物</title>
+    <link rel="shortcut icon" th:href="@{/img/logo.png}" href="/images/logo.png" type="images/x-icon"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content=""/>
+    <!-- 引入css -->
+    <th:block th:replace="pageFrame/basicsCss :: copy"></th:block>
+    <!-- jQuery-File-Upload-->
+    <link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/blueimp-gallery.min.css}"/>
+    <link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/jquery.fileupload.css}"/>
+    <link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/jquery.fileupload-ui.css}"/>
+    <!-- CSS adjustments for browsers with JavaScript disabled -->
+    <noscript><link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/jquery.fileupload-noscript.css}"></noscript>
+    <noscript><link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/jquery.fileupload-ui-noscript.css}"></noscript>
+    <link rel="stylesheet" th:href="@{/plugins/jQuery-File-Upload/css/cookieconsent.min.css}"/>
+</head>
+<body
+        th:class="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}?
+        'hold-transition skin-leaf fixed sidebar-collapse sidebar-mini':
+        'hold-transition skin-leaf fixed layout-top-nav'"
+>
+<!-- 主界面区 -->
+<div class="wrapper">
+    <!-- 引入Header -->
+    <header id="header" class="main-header">
+        <th:block th:replace="pageFrame/basicsHeader :: copy"></th:block>
+    </header>
+    <!-- 引入左侧用户操作菜单-->
+    <th:block th:replace="pageFrame/leftMenu :: copy"></th:block>
+    <!-- 引入loginModal -->
+    <th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/loginModal :: copy"></th:block>
+    <!-- 引入logoutModal -->
+    <th:block th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:replace="user/logoutModal :: copy"></th:block>
+    <!-- 显示区 -->
+    <div class="content-wrapper">
+        <!-- 内容区 -->
+        <section class="container content-header">
+            <div class="row">
+                <h1>TEST</h1>
+                <!-- The file upload form used as target for the file upload widget -->
+                <form id="fileupload" th:action="@{/user/upload/rest/img}" method="POST" enctype="multipart/form-data">
+                    <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                    <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+                    <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                    <div class="row fileupload-buttonbar">
+                        <div class="col-lg-7">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" id="file" multiple>
+                </span>
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Start upload</span>
+                            </button>
+                            <button type="reset" class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Cancel upload</span>
+                            </button>
+                            <button type="button" class="btn btn-danger delete">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                <span>Delete</span>
+                            </button>
+                            <input type="checkbox" class="toggle">
+                            <!-- The global file processing state -->
+                            <span class="fileupload-process"></span>
+                        </div>
+                        <!-- The global progress state -->
+                        <div class="col-lg-5 fileupload-progress fade">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                            </div>
+                            <!-- The extended global progress state -->
+                            <div class="progress-extended">&nbsp;</div>
+                        </div>
+                    </div>
+                    <!-- The table listing the files available for upload/download -->
+                    <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+                </form>
+                <br>
+                <!-- The blueimp Gallery widget -->
+                <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
+                    <div class="slides"></div>
+                    <h3 class="title"></h3>
+                    <a class="prev">‹</a>
+                    <a class="next">›</a>
+                    <a class="close">×</a>
+                    <a class="play-pause"></a>
+                    <ol class="indicator"></ol>
+                </div>
+                <!-- The template to display files available for upload -->
+                <script id="template-upload" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                        <tr class="template-upload fade">
+                            <td>
+                                <span class="preview"></span>
+                            </td>
+                            <td>
+                                <p class="name">{%=file.name%}</p>
+                                <strong class="error text-danger"></strong>
+                            </td>
+                            <td>
+                                <p class="size">Processing...</p>
+                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+                            </td>
+                            <td>
+                                {% if (!i && !o.options.autoUpload) { %}
+                                    <button class="btn btn-primary start" disabled>
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span>Start</span>
+                                    </button>
+                                {% } %}
+                                {% if (!i) { %}
+                                    <button class="btn btn-warning cancel">
+                                        <i class="glyphicon glyphicon-ban-circle"></i>
+                                        <span>Cancel</span>
+                                    </button>
+                                {% } %}
+                            </td>
+                        </tr>
+                    {% } %}
+                    </script>
+                    <!-- The template to display files available for download -->
+                    <script id="template-download" type="text/x-tmpl">
+                    {% for (var i=0, file; file=o.files[i]; i++) { %}
+                        <tr class="template-download fade">
+                            <td>
+                                <span class="preview">
+                                    {% if (file.thumbnailUrl) { %}
+                                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                                    {% } %}
+                                </span>
+                            </td>
+                            <td>
+                                <p class="name">
+                                    {% if (file.url) { %}
+                                        <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                                    {% } else { %}
+                                        <span>{%=file.name%}</span>
+                                    {% } %}
+                                </p>
+                                {% if (file.error) { %}
+                                    <div><span class="label label-danger">Error</span> {%=file.error%}</div>
+                                {% } %}
+                            </td>
+                            <td>
+                                <span class="size">{%=o.formatFileSize(file.size)%}</span>
+                            </td>
+                            <td>
+                                {% if (file.deleteUrl) { %}
+
+                                    <input type="checkbox" name="delete" value="1" class="toggle">
+                                {% } else { %}
+                                    <button class="btn btn-warning cancel">
+                                        <i class="glyphicon glyphicon-ban-circle"></i>
+                                        <span>Cancel</span>
+                                    </button>
+                                {% } %}
+                            </td>
+                        </tr>
+                    {% } %}
+                    </script>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <th:block th:replace="pageFrame/basicsFooter :: copy"></th:block>
+    </footer>
+</div>
+<!-- 引入js -->
+<th:block th:replace="pageFrame/basicsJs :: copy"></th:block>
+
+<script th:src="@{/plugins/jQuery-File-Upload/js/vendor/jquery.ui.widget.js}"></script>
+
+<script th:src="@{/plugins/jQuery-File-Upload/js/tmpl.min.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/load-image.all.min.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/canvas-to-blob.min.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.blueimp-gallery.min.js}"></script>
+
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.iframe-transport.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-process.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-image.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-audio.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-video.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-validate.js}"></script>
+<script th:src="@{/plugins/jQuery-File-Upload/js/jquery.fileupload-ui.js}"></script>
+<script th:src="@{/js/uploadImages.js}"></script>
+<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
+<!--[if (gte IE 8)&(lt IE 10)]>
+<script th:src="@{/plugins/jQuery-File-Upload/js/cors/jquery.xdr-transport.js}"></script>
+<![endif]-->
+<script th:src="@{/plugins/jQuery-File-Upload/js/cookieconsent.min.js}"></script>
+<script>window.addEventListener('load',function(){window.cookieconsent.initialise({palette:{popup:{background:'#428bca'},button:{background:'#fff'}}})})</script>
+<th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}">
+    <th:block th:replace="user/loginJs :: copy"></th:block>
+    <th:block th:if="${not #lists.isEmpty(activeMsg)}">
+        <th:block th:switch="${activeStatus}">
+            　　<script th:case="true">
+            $(document).ready(function() {
+                $('#loginIcon').click();
+            });
+        </script>
+            　　<th:block th:case="false">
+            <input id="activeMsg" class="hidden" th:value="${activeMsg}" readonly="readonly"></input>
+            　　<script>
+            $(document).ready(function() {
+                layer.msg($('#activeMsg').val(), function(){
+                });
+            });
+        </script>
+        </th:block>
+        </th:block>
+    </th:block>
+</th:block>
+</body>
+</html>

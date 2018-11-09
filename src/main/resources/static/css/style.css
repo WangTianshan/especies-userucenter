@@ -1,0 +1,93 @@
+/*	-------图片最大宽度------- */
+.maxWidth400 img{
+     max-width:400px
+ }
+.maxWidth200 img{
+    max-width:200px
+}
+.maxWidth100 img{
+    max-width:100px
+}
+/*	-------列表最后的edit图标样式------- */
+.table-edit-icon{
+    color: #474749;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    z-index: 2;
+    color: #fff;
+    background-color: #5a925a;
+    border-color: #5a925a;
+}
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #5a925a;
+    border-color: #5a925a;
+}
+a {
+    color: #5a925a;
+}
+a:hover,a:focus {
+    color: #5a925a;
+}
+.nav-tabs-custom > .nav-tabs > li.active {
+    border-top-color: #5a925a;
+}
+.showcase {
+    min-height: 20px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 2px solid #e3e3e3;
+    border-radius: 4px;
+    box-shadow: inset 0 5px 5px rgba(0,0,0,.05);
+    min-height: 250px;
+}
+.showcase-bottom {
+    padding: 0px 10px 0px 10px;
+}
+.btn-leaf{
+    background: #5a925a;
+    color: #f5f5f5;
+}
+.text-leaf{
+    color: #5a925a;
+}
+.bg-leaf{
+    color: #fff !important;
+    background-color: #5a925a;
+}
+.bg-leaf-active {
+    color: #fff !important;
+    background-color: #368763 !important;
+}
+
+.box.box-leaf {
+    border-top-color: #5a925a;
+}
+.navbar-nav > .user-menu > .dropdown-menu {
+    width: 200px;
+}
+
+/*	-------瀑流图下行字------- */
+.waterfull-subtitle{
+    padding: 10px;
+    float: left;
+    line-height: 24px;
+}
+
+/*	-------正方形------- */
+.quadrate{
+    width: 100px;
+    height: 100px;
+}
+
+/*	-------个人主页瀑流图------- */
+.waterfull-quadrate { margin-top: 10px;margin-bottom: 10px; background: #ecf0f5; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; border-radius: 4px; overflow: hidden; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07); }
+.waterfull-quadrate a { display: block; }
+.waterfull-quadrate .fh5co-desc { padding: 10px; float: left; line-height: 24px; }
+.waterfull-quadrate .fh5co-item-title { font-family: "Montserrat", arial, sans-serif; font-size: 17px; line-height: 24px; margin: 0; padding: 0; }
+.waterfull-quadrate img { max-width: 100%; -webkit-transition: 0.2s; -o-transition: 0.2s; transition: 0.2s; }
+.waterfull-quadrate .fh5co-board-img { border-top-left-radius: 4px; border-top-right-radius: 4px; overflow: hidden; }
+.waterfull-quadrate .image-popup:hover img { opacity: .5; }
