@@ -2,6 +2,7 @@ package org.big.especies.controller.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,17 +25,18 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/user/rest")
 public class UserRestController {
-//    /**
-//     *<b>统计首页上所需要的所有数量</b>
-//     *<p> 统计首页上所需要的所有数量</p>
-//     * @author WangTianshan (王天山)
-//     * @return long
-//     */
-//    @RequestMapping(value="/count/group",method = {RequestMethod.GET})
-//    public JSON Group(HttpServletRequest request, HttpServletResponse response) {
-//        JSON myGroup=this.mediaService.countMyGroup(request,response);
-//        return myGroup;
-//    }
+    @Autowired
+    private UserService userService;
+    /**
+     *<b>统计首页上所需要的所有数量</b>
+     *<p> 统计首页上所需要的所有数量</p>
+     * @author WangTianshan (王天山)
+     * @return long
+     */
+    @RequestMapping(value="/updata/signInTime",method = {RequestMethod.GET})
+    public void UpdataLastSignInTime() {
+        this.userService.updataLastSignInTime();
+    }
 //
 //    /**
 //     *<b>统计首页上所需要的所有数量</b>

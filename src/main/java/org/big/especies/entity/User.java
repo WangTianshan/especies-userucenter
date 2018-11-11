@@ -46,6 +46,7 @@ public class User {
         this.email = user.getEmail();
         this.pwd = user.getPwd();
         this.nickname = user.getNickname();
+        this.lastSignInTime = user.getLastSignInTime();
     }
 
     @Id

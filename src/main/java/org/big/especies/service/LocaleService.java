@@ -2,6 +2,7 @@ package org.big.especies.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 /**
  *<p><b>Locale的Service类接口</b></p>
@@ -23,4 +24,14 @@ public interface LocaleService {
      * @return java.lang.String
      */
     String getLanguage(HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     *<b>返回当前的语言</b>
+     *<p> 据request、response返回当前的语言</p>
+     * @author WangTianshan (王天山)
+     * @param request 页面请求
+     * @param response 页面响应
+     * @return java.lang.String
+     */
+    Locale getLocale(HttpServletRequest request, HttpServletResponse response);
 }

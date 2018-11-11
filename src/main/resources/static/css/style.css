@@ -510,17 +510,18 @@ a.text-black:hover,
 a.text-black:focus {
   color: #4d4d4d !important;
 }
-.alert-success {
-  background-color: #70c770;
-}
-.alert-info {
-  background-color: #82786e;
-}
-.alert-warning {
-  background-color: #879a9f;
-}
-.alert-danger {
-  background-color: #b1a374;
+/*.alert-success {*/
+  /*background-color: #70c770;*/
+/*}*/
+/*.alert-info {*/
+  /*background-color: #82786e;*/
+/*}*/
+/*.alert-warning {*/
+  /*background-color: #879a9f;*/
+/*}*/
+.alert-outline-danger {
+  color: #ffffff;
+  background-color: rgba(248, 96, 68, 0.6);
 }
 .especies-section-btn a.btn:not(.btn-form) {
   border-radius: 100px;
@@ -621,16 +622,17 @@ a:hover {
   margin-bottom: .357em;
   padding: 0;
 }
-.alert {
-  color: #ffffff;
-  border-radius: 0;
-  border: 0;
-  font-size: .875rem;
-  line-height: 1.5;
-  margin-bottom: 1.875rem;
-  padding: 1.25rem;
-  position: relative;
-}
+/*.alert {*/
+  /*color: #ffffff;*/
+  /*border-radius: 0;*/
+  /*border: 0;*/
+  /*font-size: .875rem;*/
+  /*line-height: 1.5;*/
+  /*margin-bottom: 1.875rem;*/
+  /*padding: 1.25rem;*/
+  /*position: relative;*/
+/*}*/
+
 .alert.alert-form::after {
   background-color: inherit;
   bottom: -7px;
@@ -2022,5 +2024,10 @@ body {
 }
 
 .card-black {
+  color: #fff;
   background-color: rgba(0,0,0,0.5);
   border: none; }
+
+.form-code-img{
+  padding: .1rem .1rem
+}

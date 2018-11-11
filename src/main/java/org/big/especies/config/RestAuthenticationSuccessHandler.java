@@ -1,8 +1,12 @@
 package org.big.especies.config;
 
+import org.big.especies.entity.User;
+import org.big.especies.entity.UserDetail;
 import org.big.especies.service.LocaleService;
+import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +27,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
     @Autowired
     private LocaleService localeService;
+    @Autowired
+    private UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -37,7 +43,13 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
             successMessage="Login Success";
         else
             successMessage="Login Success";
+//
+//        System.out.println("--------------");
+//        User thisUser=(UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        System.out.println("u="+thisUser.getId());
+//        System.out.println("--------------");
 
+//        this.userService.updataLastSignInTime((UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write("{\"result\":\""+successMessage+"\"}");

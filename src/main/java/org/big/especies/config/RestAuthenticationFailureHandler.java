@@ -1,9 +1,14 @@
 package org.big.especies.config;
 
+import org.big.especies.entity.UserDetail;
 import org.big.especies.service.LocaleService;
+import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +31,8 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
     private String fromEmail;
     @Autowired
     private LocaleService localeService;
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -34,45 +41,20 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
         String loginErrorMsg="error";
         try{
             if(request.getSession().getAttribute("loginError").equals("token")){
-                if(thisLanguage.equals("zh"))
-                    loginErrorMsg="验证码错误";
-                else if(thisLanguage.equals("en"))
-                    loginErrorMsg="Verification code is error";
-                else
-                    loginErrorMsg="Verification code is error";
+                loginErrorMsg=messageSource.getMessage("msg_sign_in_token_error", null, localeService.getLocale(request,response));
             }
             if(request.getSession().getAttribute("loginError").equals("name")){
-                if(thisLanguage.equals("zh"))
-                    loginErrorMsg="无此用户名";
-                else if(thisLanguage.equals("en"))
-                    loginErrorMsg="No this Username";
-                else
-                    loginErrorMsg="No this Username";
+                loginErrorMsg=messageSource.getMessage("msg_sign_in_key_error", null, localeService.getLocale(request,response));
             }
             else if(request.getSession().getAttribute("loginError").equals("password")){
-                if(thisLanguage.equals("zh"))
-                    loginErrorMsg="密码错误";
-                else if(thisLanguage.equals("en"))
-                    loginErrorMsg="Password is error";
-                else
-                    loginErrorMsg="Password is error";
+                loginErrorMsg=messageSource.getMessage("msg_sign_in_password_error", null, localeService.getLocale(request,response));
             }
             else if(request.getSession().getAttribute("loginError").equals("status")){
                 request.getSession().setAttribute("adminEmail",fromEmail);
-                if(thisLanguage.equals("zh"))
-                    loginErrorMsg="该账户未激活";
-                else if(thisLanguage.equals("en"))
-                    loginErrorMsg="This account was not activated";
-                else
-                    loginErrorMsg="This account was not activated";
+                loginErrorMsg=messageSource.getMessage("msg_sign_in_status_error", null, localeService.getLocale(request,response));
             }
             else if(request.getSession().getAttribute("loginError").equals("disable")){
-                if(thisLanguage.equals("zh"))
-                    loginErrorMsg="该账户已禁用";
-                else if(thisLanguage.equals("en"))
-                    loginErrorMsg="This account has been disabled";
-                else
-                    loginErrorMsg="This account has been disabled";
+                loginErrorMsg=messageSource.getMessage("msg_sign_in_status_disable", null, localeService.getLocale(request,response));
             }
         }catch(Exception e){
         }
@@ -80,7 +62,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
         // TODO Auto-generated method stub
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"result\":\""+loginErrorMsg+"\"}");
+        response.getWriter().write("{\"result\":\""+loginErrorMsg+"\",\"title\":\""+messageSource.getMessage("alert_warning", null, localeService.getLocale(request,response))+"\"}");
         response.getWriter().flush();
     }
 

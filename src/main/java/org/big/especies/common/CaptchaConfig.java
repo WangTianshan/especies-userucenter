@@ -30,9 +30,12 @@ public class CaptchaConfig {
     public DefaultKaptcha getKaptchaBean(){
         DefaultKaptcha defaultKaptcha=new DefaultKaptcha();
         Properties properties=new Properties();
-        properties.setProperty("kaptcha.border", "yes");
-        properties.setProperty("kaptcha.border.color", "210,214,222");
-        properties.setProperty("kaptcha.textproducer.font.color", "199,21,133");
+        properties.setProperty("kaptcha.border", "no");
+        properties.setProperty("kaptcha.border.color", "233,236,239");
+        properties.setProperty("kaptcha.background.clear.from", "233,236,239");
+        properties.setProperty("kaptcha.background.clear.to", "233,236,239");
+        properties.setProperty("kaptcha.textproducer.font.color", "128,128,0");
+        properties.setProperty("kaptcha.noise.color", "85,107,47");
         properties.setProperty("kaptcha.image.width", "125");
         properties.setProperty("kaptcha.image.height", "48");
         properties.setProperty("kaptcha.session.key", "code");

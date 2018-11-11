@@ -4,7 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *<p><b>UserDetail的Entity类</b></p>
@@ -19,11 +21,25 @@ public class UserDetail extends User implements UserDetails {
     private int status;
     private String profilePicture;
     private String code;
+    private String email;
+    private String countryCode;
+    private String mobile;
+    private String nickname;
+    private String realName;
+    private Timestamp signUpTime;
+    private Timestamp lastSignInTime;
 
     public UserDetail(User user){
         super(user);
         this.status=user.getStatus();
         this.profilePicture=user.getProfilePicture();
+        this.email=user.getEmail();
+        this.countryCode=user.getCountryCode();
+        this.mobile=user.getMobile();
+        this.nickname=user.getNickname();
+        this.realName=user.getRealName();
+        this.signUpTime=user.getSignUpTime();
+        this.lastSignInTime=user.getLastSignInTime();
         this.code=user.getId();
     }
 
@@ -82,6 +98,46 @@ public class UserDetail extends User implements UserDetails {
 
     public String getId(){
         return super.getId();
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    @Override
+    public String getMobile() {
+        return mobile;
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    @Override
+    public String getRealName() {
+        return realName;
+    }
+
+    @Override
+    public Timestamp getSignUpTime() {
+        return signUpTime;
+    }
+
+    @Override
+    public Timestamp getLastSignInTime() {
+        return lastSignInTime;
+    }
+
+    @Override
+    public void setLastSignInTime(Timestamp lastSignInTime) {
+        this.lastSignInTime = lastSignInTime;
     }
 }
 

@@ -15,6 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -217,8 +218,15 @@ public class UserServiceImpl implements UserService{
                 if (this.findOneByEmail(newUser.getEmail()) == null) {
                     //设置用户信息
                     newUser.setStatus((byte)0);
-//                    newUser.setMark(UUID.randomUUID().toString());
+                    newUser.setId(UUID.randomUUID().toString());
                     newUser.setPwd(MD5Utils.MD532(newUser.getPwd()));
+                    newUser.setSignUpTime(new Timestamp(System.currentTimeMillis()));
+                    newUser.setVerificationCode(UUID.randomUUID().toString().replace("-",""));
+                    //过期时间
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(new Timestamp(System.currentTimeMillis()));
+                    c.add(Calendar.MINUTE, 10);
+                    newUser.setVerificationCodeExpiryTime(c.getTime());
                     this.saveOne(newUser);
 
                     //设置激活流程
@@ -237,12 +245,12 @@ public class UserServiceImpl implements UserService{
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
@@ -252,12 +260,12 @@ public class UserServiceImpl implements UserService{
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
@@ -267,12 +275,12 @@ public class UserServiceImpl implements UserService{
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
-//                            sb.append(newUser.getMark());
+                            sb.append(newUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
@@ -629,6 +637,74 @@ public class UserServiceImpl implements UserService{
         catch (Exception e){
             return false;
         }
+    }
+
+    @Override
+    public void updataLastSignInTime() {
+        User thisUser= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User nextUser= userRepository.getOne(thisUser.getId());
+        nextUser.setLastSignInTime(new Timestamp(System.currentTimeMillis()));
+        this.userRepository.save(nextUser);
+    }
+
+    @Override
+    @Transactional
+    public JSON remoteLogin(HttpServletRequest request) {
+        //登录名
+        String signInKey=request.getParameter("sign_in_key");
+        //密码
+        String signInPwd=request.getParameter("sign_in_pwd");
+        //Token
+        String signInToken=request.getParameter("sign_in_token");
+        //域名
+        StringBuffer url = request.getRequestURL();
+        String signInContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
+
+        System.out.println("======remoteLogin======");
+        System.out.println("signInKey="+signInKey);
+        System.out.println("signInPwd="+signInPwd);
+        System.out.println("signInToken="+signInToken);
+        System.out.println("signInContextUrl="+signInContextUrl);
+        System.out.println("====================");
+
+        JSONObject thisResult=new JSONObject();
+        thisResult.put("code",0);
+        thisResult.put("message","Unknown situation");
+        //验证结果
+        User thisUser = this.userRepository.findOneByUsername(signInKey);
+        if(thisUser == null){
+            thisResult.put("code",-1);
+            thisResult.put("message","No this user");
+        }
+        else if (!signInPwd.equals(thisUser.getPwd())) {
+            thisResult.put("code",-2);
+            thisResult.put("message","Password error");
+        }
+        else if (thisUser.getStatus()==0) {
+            thisResult.put("code",-3);
+            thisResult.put("message","Nonactivated");
+        }
+        else if (thisUser.getStatus()==-1) {
+            thisResult.put("code",-4);
+            thisResult.put("message","Disabled");
+        }
+        else{//成功
+            JSONObject returnUser=new JSONObject();
+            returnUser.put("id",thisUser.getId());
+            returnUser.put("username",thisUser.getUsername());
+            returnUser.put("email",thisUser.getEmail());
+            returnUser.put("mobile",thisUser.getMobile());
+            returnUser.put("countryCode",thisUser.getCountryCode());
+            returnUser.put("nickname",thisUser.getNickname());
+            returnUser.put("realName",thisUser.getRealName());
+            returnUser.put("profilePicture",thisUser.getProfilePicture());
+            returnUser.put("signUpTime",thisUser.getSignUpTime());
+            returnUser.put("lastSignInTime",thisUser.getLastSignInTime());
+            thisResult.put("code",1);
+            thisResult.put("message","Success");
+            thisResult.put("returnUser",returnUser);
+        }
+        return thisResult;
     }
 
 }

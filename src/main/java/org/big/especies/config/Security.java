@@ -80,9 +80,9 @@ public class Security extends WebSecurityConfigurerAdapter {
                 //所有人可访问的
                 .antMatchers("/login").permitAll()
                 //ROLE_USER、ROLE_SUPER权限可以访问的请求
-                .antMatchers("/user/**").hasAnyAuthority("ROLE_USER","ROLE_TAXONOMIST","ROLE_SUPER")
+                .antMatchers("/user/**").hasAnyAuthority("USER","SUPER")
                 //ROLE_SUPER权限可以访问的请求
-                .antMatchers("/super/**").hasAnyAuthority("ROLE_SUPER")
+                .antMatchers("/super/**").hasAnyAuthority("SUPER")
                 .and()
 
                 .formLogin() // 登陆表单
@@ -111,6 +111,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .csrf();
 
         http.csrf().ignoringAntMatchers("/login");
+        http.csrf().ignoringAntMatchers("/rest/remoteLogin");
     }
 
     /**

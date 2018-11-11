@@ -3,6 +3,7 @@ package org.big.especies.controller;
 import org.big.especies.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,33 +35,10 @@ public class IndexController {
      */
     @RequestMapping(value="/", method = {RequestMethod.GET})
     public String Index(Model model) {
-        String loginErrorMsg="";
-        try{
-            request.getSession().setAttribute("adminEmail",fromEmail);
-            System.out.println("fromEmail="+fromEmail);
-            if(request.getSession().getAttribute("loginError").equals("name")){
-                model.addAttribute("loginError", 1);
-                loginErrorMsg="无此用户名";
-            }
-            else if(request.getSession().getAttribute("loginError").equals("password")){
-                model.addAttribute("loginError", 1);
-                loginErrorMsg="密码错误";
-            }
-            else if(request.getSession().getAttribute("loginError").equals("token")){
-                model.addAttribute("loginError", 1);
-                loginErrorMsg="验证码错误";
-            }
-            else{
-                model.addAttribute("loginError", 0);
-                User newUser =new User();
-                model.addAttribute("newUser", newUser);
-            }
-            model.addAttribute("loginErrorMsg", loginErrorMsg);
-        }catch(Exception e){
-        }
-
+        String signType="signIn";
         User newUser =new User();
         model.addAttribute("newUser", newUser);
+        model.addAttribute("signType", signType);
         return "index";
     }
 }

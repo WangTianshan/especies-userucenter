@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+
 /**
  *<p><b>User的DAO类接口</b></p>
  *<p> User的DAO类接口，与User有关的持久化操作方法</p>
@@ -57,4 +59,23 @@ public interface UserRepository extends BaseRepository<User, String> {
      * @return org.springframework.data.domain.Page<org.big.entity.User>
      */
     User findOneByEmail(String name);
+
+
+
+    /**
+     *<b>根据User的Email查询一个符合条件的User</b>
+     *<p> 根据User的Email查询一个符合条件的User</p>
+     * @author WangTianshan (王天山)
+     * @param lastSignInTime
+     * @return org.springframework.data.domain.Page<org.big.entity.User>
+     */
+    @Query(value = "UPDATE User u" +
+            " SET " +
+            "u.lastSignInTime = ?1 " +
+            "WHERE u.id = ?2"
+    )
+    void updataLastSignInTime(
+            Timestamp lastSignInTime,
+            String id
+    );
 }

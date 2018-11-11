@@ -49,4 +49,25 @@ public class LocaleServiceImpl implements LocaleService {
         HttpSession session=request.getSession();
         return session.getAttribute(LOCALE_SESSION_ATTRIBUTE_NAME).toString();
     }
+
+    @Override
+    public Locale getLocale(HttpServletRequest request, HttpServletResponse response) {
+        Locale thisLocale = LocaleContextHolder.getLocale();
+        if(request.getSession().getAttribute(LOCALE_SESSION_ATTRIBUTE_NAME)==null){
+            if(thisLocale.equals("zh_CN")||thisLocale.equals("zh")){
+                localeResolver.setLocale(request,response, Locale.CHINESE);
+                request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, localeResolver);
+            }
+            else if(thisLocale.equals("en")) {
+                localeResolver.setLocale(request, response, Locale.ENGLISH);
+                request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, localeResolver);
+            }
+            else{
+                localeResolver.setLocale(request,response, Locale.ENGLISH);
+                request.setAttribute(LOCALE_RESOLVER_ATTRIBUTE, localeResolver);
+            }
+        }
+        HttpSession session=request.getSession();
+        return (Locale)session.getAttribute(LOCALE_SESSION_ATTRIBUTE_NAME);
+    }
 }

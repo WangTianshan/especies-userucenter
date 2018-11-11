@@ -1,7 +1,11 @@
 package org.big.especies.controller;
 
+import org.big.especies.entity.User;
+import org.big.especies.entity.UserDetail;
+import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +29,8 @@ public class LoginController {
     private String fromEmail;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private UserService userService;
     /**
      *<b>登录页面</b>
      *<p> 登录页面</p>
@@ -35,6 +41,7 @@ public class LoginController {
     @RequestMapping(value="", method = {RequestMethod.GET})
     public String login(Model model) {
         String loginErrorMsg="";
+        String loginMsg="error";
         try{
             request.getSession().setAttribute("adminEmail",fromEmail);
             System.out.println("fromEmail="+fromEmail);
@@ -51,11 +58,26 @@ public class LoginController {
                 loginErrorMsg="验证码错误";
             }
             else{
-                model.addAttribute("loginError", 0);
+                loginMsg="seccess";
             }
             model.addAttribute("loginErrorMsg", loginErrorMsg);
         }catch(Exception e){
+            System.out.println("===========");
+            System.out.println("loginErrorMsg="+loginErrorMsg);
         }
-        return "login";
+
+        if(loginMsg.equals("success")){
+            model.addAttribute("signType", "signIn");
+            model.addAttribute("resultType", "signInSuccess");
+            model.addAttribute("alertMessage", "ok");
+            model.addAttribute("newUser", new User());
+        }
+        else{
+            model.addAttribute("newUser", new User());
+            model.addAttribute("signType", "signIn");
+            model.addAttribute("resultType", "signInError");
+            model.addAttribute("errorMessage", loginErrorMsg);
+        }
+        return "index";
     }
 }

@@ -56,14 +56,20 @@ public class RegisterController {
     public String newUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("newUser") User newUser, Model model) {
         String registerMsg=this.userService.registerNewOne(request,response,newUser);
         if(registerMsg.equals("success")){
+            model.addAttribute("signType", "signIn");
+            model.addAttribute("resultType", "signUpSuccess");
+            model.addAttribute("alertMessage", registerMsg);
+            model.addAttribute("newUser", newUser);
             request.getSession().setAttribute("registerEmail",newUser.getEmail());
             request.getSession().setAttribute("adminEmail",fromEmail);
-            return "redirect:/register/success";
+            return "index";
         }
         else{
             model.addAttribute("newUser", newUser);
-            model.addAttribute("errorMsg", registerMsg);
-            return "user/register";
+            model.addAttribute("signType", "signUp");
+            model.addAttribute("resultType", "signUpError");
+            model.addAttribute("errorMessage", registerMsg);
+            return "index";
         }
     }
 

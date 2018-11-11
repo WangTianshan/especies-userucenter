@@ -31,16 +31,15 @@ public class PublicRestController {
     @Autowired
     private UserService userService;
 
-//    /**
-//     *<b>图片上传</b>
-//     *<p> 图片上传</p>
-//     * @author WangTianshan (王天山)
-//     * @param name 初始化模型
-//     * @return java.lang.String
-//     */
-//    @RequestMapping(value = "/upload/rest/img", method = RequestMethod.POST)
-//    public JSON addImage(String name, @RequestParam(required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response)
-//            throws IOException {
-//        return mediaService.autoidentifyImage(request, response,file, uploadPath+"images/");
-//    }
+    /**
+     *<b>远程登陆</b>
+     *<p> 远程登陆</p>
+     * @author WangTianshan (王天山)
+     * @param request
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/rest/remoteLogin", method = RequestMethod.POST)
+    public JSON Login(HttpServletRequest request){
+        return userService.remoteLogin(request);
+    }
 }

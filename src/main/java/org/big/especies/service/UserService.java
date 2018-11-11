@@ -150,4 +150,21 @@ public interface UserService {
      * @return java.lang.String
      */
     Boolean restPassword(String username, String password);
+
+    /**
+     *<b>改变实体状态</b>
+     *<p> 改变实体状态</p>
+     * @author WangTianshan (王天山)
+     * @return void
+     */
+    void updataLastSignInTime();
+
+    /**
+     *<b>远程登陆</b>
+     *<p> 远程登陆</p>
+     * @author WangTianshan (王天山)
+     * @param request 页面请求
+     * @return com.alibaba.fastjson.JSON
+     */
+    JSON remoteLogin(HttpServletRequest request);
 }

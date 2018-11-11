@@ -5,6 +5,7 @@ import com.google.code.kaptcha.Constants;
 import org.big.especies.common.MD5Utils;
 import org.big.especies.entity.UserDetail;
 import org.big.especies.service.UserDetailService;
+import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,11 +32,13 @@ import java.util.Collection;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
-    //@Autowired
+    @Autowired
     private HttpServletRequest request;
 
     @Autowired
     private UserDetailService userDetailService;
+    @Autowired
+    private UserService userService;
 
     /**
      *<b>用户登陆验证</b>
@@ -55,6 +59,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (details.getToken().equalsIgnoreCase(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY).toString())) {
             UserDetail user = (UserDetail) this.userDetailService.loadUserByUsername(name);
             if(user == null){
+                request.getSession().setAttribute("loginError","name");
                 throw new BadCredentialsException("没有该用户");
             }
             if (!password.equals(user.getPassword())) {
