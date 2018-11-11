@@ -17,7 +17,16 @@
     <script th:src="@{/plugins/jqueryform/jquery.form.min.js }" src="plugins/layer/laye.js"></script>
     <!-- Layer 3.0.1 -->
     <script th:src="@{/plugins/layer/layer.js}" src="plugins/layer/laye.js"></script>
-
+    <!-- bootstrapValidator -->
+    <script th:src="@{/plugins/bootstrapValidator/js/bootstrapValidator.min.js}"></script>
+    <th:block th:if="${#locale.getLanguage().equals('zh')}">
+        <script th:src="@{/plugins/bootstrapValidator/js/language/zh_CN.js}"></script>
+    </th:block>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var warning_name= [[#{warning_name}]];
+        /*]]>*/
+    </script>
     <!-- page_script -->
     <script>
         //初始化组件

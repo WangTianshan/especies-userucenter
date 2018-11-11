@@ -659,14 +659,6 @@ public class UserServiceImpl implements UserService{
         //域名
         StringBuffer url = request.getRequestURL();
         String signInContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
-
-        System.out.println("======remoteLogin======");
-        System.out.println("signInKey="+signInKey);
-        System.out.println("signInPwd="+signInPwd);
-        System.out.println("signInToken="+signInToken);
-        System.out.println("signInContextUrl="+signInContextUrl);
-        System.out.println("====================");
-
         JSONObject thisResult=new JSONObject();
         thisResult.put("code",0);
         thisResult.put("message","Unknown situation");

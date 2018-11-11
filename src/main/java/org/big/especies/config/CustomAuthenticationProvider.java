@@ -1,7 +1,6 @@
 package org.big.especies.config;
 
 import com.google.code.kaptcha.Constants;
-//import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.big.especies.common.MD5Utils;
 import org.big.especies.entity.UserDetail;
 import org.big.especies.service.UserDetailService;
@@ -56,7 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 下面是验证逻辑，验证通过则返回UsernamePasswordAuthenticationToken，
         // 否则，可直接抛出错误（AuthenticationException的子类，在登录验证不通过重定向至登录页时可通过session.SPRING_SECURITY_LAST_EXCEPTION.message获取具体错误提示信息）
         request.getSession().setAttribute("loginError","");
-        if (details.getToken().equalsIgnoreCase(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY).toString())) {
+        if (details.getToken()!=null && details.getToken().equalsIgnoreCase(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY).toString())) {
             UserDetail user = (UserDetail) this.userDetailService.loadUserByUsername(name);
             if(user == null){
                 request.getSession().setAttribute("loginError","name");

@@ -260,7 +260,7 @@
         $(".codeImg").attr("src", 'captchaImg?code='+Math.random());
     }
 </script>
-<!-- 构造引证 -->
+<!-- 构造模板 -->
 <script id="tmpl-sign-in-error" type="text/x-jquery-tmpl">
     <div id="sign-in-alert-error" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert" style="display:none;">
         <strong>{{= title}}：</strong>
@@ -308,7 +308,59 @@
             $('#sign-in-alert-error').fadeIn();
         });
     }
-
+    //前端验证
+    $(document).ready(function() {
+        //获取host
+        //$("#base_url").val(window.location.host);
+        $('#sign-in-form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon ',
+                invalid: 'glyphicon ',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                rename: {
+                    selector: '#sign-in-key',
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 30,
+                        },
+                        // regexp: {
+                        //     regexp: /^[a-zA-Z0-9_\.]+$/,
+                        //     message: warning_name
+                        // },
+                    }
+                },
+                'password': {
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 5,
+                            max: 20,
+                        },
+                    }
+                },
+                'token': {
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 4,
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                        },
+                    }
+                },
+            }
+        });
+    });
 </script>
 </body>
 </html>
