@@ -202,6 +202,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findOneByEmail(String email) {
+        System.out.println("email="+email);
         return this.userRepository.findOneByEmail(email);
     }
 
@@ -657,44 +658,51 @@ public class UserServiceImpl implements UserService{
         //Token
         String signInToken=request.getParameter("sign_in_token");
         //域名
-        StringBuffer url = request.getRequestURL();
-        String signInContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
+//        StringBuffer url = request.getRequestURL();
+//        String signInContextUrl = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
         JSONObject thisResult=new JSONObject();
         thisResult.put("code",0);
         thisResult.put("message","Unknown situation");
-        //验证结果
-        User thisUser = this.userRepository.findOneByUsername(signInKey);
-        if(thisUser == null){
-            thisResult.put("code",-1);
-            thisResult.put("message","No this user");
+        //accessToken加域名验证
+        if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3") && request.getServerName().equals("127.0.0.1")){
+            //验证结果
+            User thisUser = this.userRepository.findOneByUsername(signInKey);
+            if(thisUser == null){
+                thisResult.put("code",-1);
+                thisResult.put("message","No this user");
+            }
+            else if (!signInPwd.equals(thisUser.getPwd())) {
+                thisResult.put("code",-2);
+                thisResult.put("message","Password error");
+            }
+            else if (thisUser.getStatus()==0) {
+                thisResult.put("code",-3);
+                thisResult.put("message","Nonactivated");
+            }
+            else if (thisUser.getStatus()==-1) {
+                thisResult.put("code",-4);
+                thisResult.put("message","Disabled");
+            }
+            else{//成功
+                JSONObject returnUser=new JSONObject();
+                returnUser.put("id",thisUser.getId());
+                returnUser.put("username",thisUser.getUsername());
+                returnUser.put("email",thisUser.getEmail());
+                returnUser.put("mobile",thisUser.getMobile());
+                returnUser.put("countryCode",thisUser.getCountryCode());
+                returnUser.put("nickname",thisUser.getNickname());
+                returnUser.put("realName",thisUser.getRealName());
+                returnUser.put("profilePicture",thisUser.getProfilePicture());
+                returnUser.put("signUpTime",thisUser.getSignUpTime());
+                returnUser.put("lastSignInTime",thisUser.getLastSignInTime());
+                thisResult.put("code",1);
+                thisResult.put("message","Success");
+                thisResult.put("returnUser",returnUser);
+            }
         }
-        else if (!signInPwd.equals(thisUser.getPwd())) {
-            thisResult.put("code",-2);
-            thisResult.put("message","Password error");
-        }
-        else if (thisUser.getStatus()==0) {
-            thisResult.put("code",-3);
-            thisResult.put("message","Nonactivated");
-        }
-        else if (thisUser.getStatus()==-1) {
-            thisResult.put("code",-4);
-            thisResult.put("message","Disabled");
-        }
-        else{//成功
-            JSONObject returnUser=new JSONObject();
-            returnUser.put("id",thisUser.getId());
-            returnUser.put("username",thisUser.getUsername());
-            returnUser.put("email",thisUser.getEmail());
-            returnUser.put("mobile",thisUser.getMobile());
-            returnUser.put("countryCode",thisUser.getCountryCode());
-            returnUser.put("nickname",thisUser.getNickname());
-            returnUser.put("realName",thisUser.getRealName());
-            returnUser.put("profilePicture",thisUser.getProfilePicture());
-            returnUser.put("signUpTime",thisUser.getSignUpTime());
-            returnUser.put("lastSignInTime",thisUser.getLastSignInTime());
-            thisResult.put("code",1);
-            thisResult.put("message","Success");
-            thisResult.put("returnUser",returnUser);
+        else{
+            thisResult.put("code",-5);
+            thisResult.put("message","Access token error");
         }
         return thisResult;
     }

@@ -1,14 +1,11 @@
 package org.big.especies.config;
 
-import org.big.especies.entity.UserDetail;
+import org.big.especies.common.StringReplaceUtil;
 import org.big.especies.service.LocaleService;
-import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +25,7 @@ import java.io.IOException;
 public class RestAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Value("${spring.mail.username}")
-    private String fromEmail;
+    private String adminEmail;
     @Autowired
     private LocaleService localeService;
     @Autowired
@@ -50,7 +47,7 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
                 loginErrorMsg=messageSource.getMessage("msg_sign_in_password_error", null, localeService.getLocale(request,response));
             }
             else if(request.getSession().getAttribute("loginError").equals("status")){
-                request.getSession().setAttribute("adminEmail",fromEmail);
+                request.getSession().setAttribute("adminEmail",adminEmail);
                 loginErrorMsg=messageSource.getMessage("msg_sign_in_status_error", null, localeService.getLocale(request,response));
             }
             else if(request.getSession().getAttribute("loginError").equals("disable")){
@@ -58,7 +55,6 @@ public class RestAuthenticationFailureHandler implements AuthenticationFailureHa
             }
         }catch(Exception e){
         }
-
         // TODO Auto-generated method stub
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

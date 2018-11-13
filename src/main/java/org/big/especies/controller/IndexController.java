@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class IndexController {
     @Value("${spring.mail.username}")
-    private String fromEmail;
+    private String adminEmail;
     @Autowired
     private HttpServletRequest request;
 
@@ -39,6 +39,7 @@ public class IndexController {
         User newUser =new User();
         model.addAttribute("newUser", newUser);
         model.addAttribute("signType", signType);
+        model.addAttribute("adminEmail", adminEmail);
         return "index";
     }
 }

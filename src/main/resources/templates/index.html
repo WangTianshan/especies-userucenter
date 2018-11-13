@@ -67,10 +67,10 @@
                                     </div>
                                 </div>
                                 <div th:if="${resultType eq 'signUpSuccess'}" class="alert alert-success" role="alert">
-                                    <h4 class="alert-heading">Well done!</h4>
-                                    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                    <h4 class="alert-heading" th:text="#{msg_sign_up_success}">成功</h4>
+                                    <p th:text="#{msg_sign_up_activate_msg}"></p>
                                     <hr>
-                                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                                    <p class="mb-0" th:text="#{msg_sign_up_activate_email_1}+${adminEmail}+#{msg_sign_up_activate_email_2}"></p>
                                 </div>
                                 <div id="sign-in-alert"></div>
                                 <!--<button type="submit" class="btn btn-success" th:text="#{forms_sign_in_submit}">Submit</button>-->
@@ -100,7 +100,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="sign-up-email" th:text="#{forms_sign_up_email}">Email</label>
-                                        <input type="email" class="form-control" th:field="*{email}" id="sign-up-email" th:placeholder="#{forms_sign_up_email_placeholder}" placeholder="请输入注册邮箱地址">
+                                        <input type="text" class="form-control" th:field="*{email}" id="sign-up-email" th:placeholder="#{forms_sign_up_email_placeholder}" placeholder="请输入注册邮箱地址">
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -110,12 +110,12 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="sign-up-repassword" th:text="#{forms_sign_up_repassword}">RePassword</label>
-                                        <input type="password" class="form-control" id="sign-up-repassword" th:placeholder="#{forms_sign_up_repassword_placeholder}" placeholder="请再次输入密码">
+                                        <input type="password" class="form-control" name="sign-up-repassword" id="sign-up-repassword" th:placeholder="#{forms_sign_up_repassword_placeholder}" placeholder="请再次输入密码">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="termsCheck">
+                                        <input name="agreeTerms" class="form-check-input" type="checkbox" id="termsCheck">
                                         <label class="form-check-label" for="termsCheck">
                                             <span th:text="#{forms_sign_up_agree}">I agree to the</span>
                                             <a href="#" data-toggle="modal" data-target="#modal-terms" th:text="#{forms_sign_up_terms}">terms</a>
@@ -147,7 +147,7 @@
                                     </button>
                                 </div>
 
-                                <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}">Sign up</button>
+                                <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}" onclick="signUp();">Sign up</button>
                             </form>
                         </div>
                     </div>
@@ -185,31 +185,30 @@
                         </dl>
                     </p>
                     <hr>
-                    <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                    <p class="mb-0">天山~~~~~~~~~~~~~~~~~~~~~~~</p>
                     <hr>
                     <a href="#" class="btn btn-outline-light" th:text="#{forms_personal_center}">个人中心</a>
-                    <a href="#" data-toggle="modal" data-target="#modal-sign-out" class="btn btn-outline-secondary float-right" th:text="#{forms_sign_out}">注销</a>
+                    <a href="#" data-toggle="modal" data-target="#modal-sign-out" class="btn btn-dark float-right" th:text="#{forms_sign_out}">注销</a>
                 </div>
             </div>
         </div>
     </div>
     </div>
 </section>
-
 <!-- 协议 -->
 <div th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modal-terms-title" th:text="#{forms_sign_up_terms}">terms</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" id="closeTerms" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <p><b>1、关于Especies</b></p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;目的是通过公民科学积累物种相关数据，支持生物多样性研究。<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;NOL提供数据管理、共享及交流平台，不进行数据交易。数据用户可以联系数据提供者获取质量更高的数据。</p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Especies提供数据管理、共享及交流平台，不进行数据交易。数据用户可以联系数据提供者获取质量更高的数据。</p>
                 <p><b>2、数据共享</b></p>
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;所有多媒体数据根据CC协议进行共享标注，数据提供者在上传数据时都要指定自己数据的共享方式。<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;数据用户必须遵守数据共享政策，违反数据共享政策者，一旦发现将依法追究其侵犯版权的行为。</p>
@@ -227,7 +226,7 @@
 </div>
 <!-- 注销 -->
 <div th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="modal-sign-out" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modal-sign-out">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" th:text="#{forms_sign_out}">注销</h5>
@@ -245,6 +244,33 @@
         </div>
     </div>
 </div>
+<!-- 重发邮件 -->
+<div th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="modal-email-resend" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modal-email-resend">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" th:text="#{forms_resend_email}">重发邮件</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <a class="input-group-prepend" onclick="reImg()">
+                        <div class="input-group-text form-code-img">
+                            <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
+                        </div>
+                    </a>
+                    <input type="text" class="form-control" name="token" id="send-email-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default float-left" data-dismiss="modal" th:text="#{forms_cancel}">取消</button>
+                <a th:href="@{/logout}" class="btn btn-dark" th:text="#{forms_resend_email}">注销</a>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 引入footer -->
 <th:block th:substituteby="pageFrame/basicsFooter :: copy"></th:block>
 <!-- 引入js【body末尾引入js文件会使页面加载更快】 -->
@@ -252,6 +278,13 @@
 <!-- jquery.tmpl -->
 <script th:src="@{/plugins/jquery.tmpl/jquery.tmpl.min.js}"></script>
 
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var warning_illegal_character= [[#{msg_illegal_character}]];
+    var warning_rename= [[#{msg_name_noavailable}]];
+    var warning_remeail= [[#{msg_email_noavailable}]];
+    /*]]>*/
+</script>
 <!-- page_script -->
 <script>
     function reImg(){
@@ -270,41 +303,93 @@
         </button>
     </div>
 </script>
+<!-- 构造模板 -->
+<script id="tmpl-sign-in-no-activated" type="text/x-jquery-tmpl">
+    <div id="sign-in-alert-error" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert" style="display:none;">
+        <strong>{{= title}}：</strong>
+        <p>{{= result}}</p>
+        <p th:text="#{msg_sign_in_activate_msg}"></p>
+        <p>
+        <a href="#" data-toggle="modal" data-target="#modal-email-resend" class="btn btn-outline-light" th:text="#{forms_resend_email}">再次发送邮件</a>
+        </p>
+        <hr>
+        <p class="mb-0" th:text="#{msg_sign_up_activate_email_1}+${adminEmail}+#{msg_sign_up_activate_email_2}"></p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</script>
 <script>
     function signIn() {
-        var options = {url:'login',type:'post',cache:false,dataType:'json',
-            success:function(data){
-                if(data.result=='Login Success' || data.result=='登录成功'){
-                    $.ajax({url:"user/rest/updata/signInTime",async:true});
-                    layer.msg(data.result,
+        layer.load(2);
+        if(!$('#sign-in-form').data('bootstrapValidator').isValid()){
+            $('#sign-in-form').data('bootstrapValidator').validate();
+            layer.closeAll('loading');
+        }
+        else{
+            var options = {url:'login',type:'post',cache:false,dataType:'json',
+                success:function(data){
+                    if(data.result=='Login Success' || data.result=='登录成功'){
+                        $.ajax({url:"user/rest/updata/signInTime",async:true});
+                        layer.msg(data.result,
+                            {
+                                time: 500, //1.5s后自动关闭
+                            },
+                            function(){
+                                window.location.reload();//刷新当前页面.
+                                layer.closeAll('loading');
+                            });
+                    }
+                    else if(data.result=='This account was not activated' || data.result=='该账户未激活'){
+                        showSignInNoActivated(data);
+                        layer.closeAll('loading');
+                    }
+                    else{
+                        layer.closeAll('loading');
+                        showSignInError(data);
+                    }
+                },
+                error:function(){
+                    layer.msg("页面会话时间过长，自动刷新后请重新登录",
                         {
-                            time: 500, //1.5s后自动关闭
+                            time: 1500, //1.5s后自动关闭
                         },
                         function(){
-                           window.location.reload();//刷新当前页面.
+                            window.location.reload();//刷新当前页面.
                         });
                 }
-                else{
-                    showSignInError(data);
-                }
-            },
-            error:function(){
-                layer.msg("页面会话时间过长，自动刷新后请重新登录",
-                    {
-                        time: 1500, //1.5s后自动关闭
-                    },
-                    function(){
-                        window.location.reload();//刷新当前页面.
-                    });
             }
+            $("#sign-in-form").ajaxSubmit(options);
         }
-        $("#sign-in-form").ajaxSubmit(options);
-        return false;
     }
+    function signUp() {
+        layer.load(2);
+        if(!$('#sign-up-form').data('bootstrapValidator').isValid()){
+            $('#sign-up-form').data('bootstrapValidator').validate();
+            layer.closeAll('loading');
+        }
+        else{
+            $("#sign-up-form").submit(function(e){
+                //layer.closeAll('loading');
+            });
+        }
+    }
+    function agreeTerms() {
+        $('#termsCheck').prop("checked",true);
+        $('#closeTerms').click();
+        $('#sign-up-form').data('bootstrapValidator').updateStatus('agreeTerms', 'NOT_VALIDATED').validateField('agreeTerms');
+    };
     //显示登陆错误提示
     function showSignInError(message) {
         $("#sign-in-alert-error").remove();
         $("#tmpl-sign-in-error").tmpl(message).appendTo("#sign-in-alert").ready(function () {
+            $('#sign-in-alert-error').fadeIn();
+        });
+    }
+    //显示未激活提示
+    function showSignInNoActivated(message) {
+        $("#sign-in-alert-error").remove();
+        $("#tmpl-sign-in-no-activated").tmpl(message).appendTo("#sign-in-alert").ready(function () {
             $('#sign-in-alert-error').fadeIn();
         });
     }
@@ -355,6 +440,140 @@
                         },
                         regexp: {
                             regexp: /^[a-zA-Z0-9_\.]+$/,
+                        },
+                    }
+                },
+            }
+        });
+        $('#sign-up-form').bootstrapValidator({
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon ',
+                invalid: 'glyphicon ',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                rename: {
+                    selector: '#sign-up-username',
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 30,
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                            message: warning_illegal_character
+                        },
+                        callback: {
+                            message: warning_rename,
+                            callback: function(value, validator) {
+                                validator_name='signup/rest/isReName';
+                                $.ajax({
+                                    url: 'signup/rest/isReName',
+                                    data: {
+                                        name:$('#sign-up-username').val()},
+                                    cache: false,
+                                    dataType:"json",
+                                    success: function (data) {
+                                        if(!data){
+                                            validator.updateStatus('rename', 'VALID', 'callback');
+                                            return true;
+                                        }
+                                        else {
+                                            return false;
+                                        }
+                                    },
+                                    error: function () {
+                                        //alert("error");
+                                        return false;
+                                    }
+                                });
+                                return false;
+                            }
+                        },
+                    }
+                },
+                reemail: {
+                    selector: '#sign-up-email',
+                    validators: {
+                        notEmpty: {
+                        },
+                        emailAddress: {
+                        },
+                        stringLength: {
+                            min: 3,
+                            max: 70,
+                        },
+                        callback: {
+                            message: warning_remeail,
+                            callback: function(value, validator) {
+                                validator_email='signup/rest/isReEmail';
+                                $.ajax({
+                                    url: 'signup/rest/isReEmail',
+                                    data: {
+                                        email:$('#sign-up-email').val()
+                                    },
+                                    cache: false,
+                                    dataType:"json",
+                                    success: function (data) {
+                                        if(!data){
+                                            validator.updateStatus('reemail', 'VALID', 'callback');
+                                            return true;
+                                        }
+                                        else {
+                                            return false;
+                                        }
+                                    },
+                                    error: function () {
+                                        //alert("error");
+                                        return false;
+                                    }
+                                });
+                                return false;
+                            }
+                        },
+                    }
+                },
+                pwd: {
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 5,
+                            max: 30,
+                        },
+                        identical: {
+                            field: 'sign-up-repassword',
+                        }
+                    }
+                },
+                'sign-up-repassword': {
+                    validators: {
+                        notEmpty: {
+                        },
+                        identical: {
+                            field: 'pwd',
+                        }
+                    }
+                },
+                'token': {
+                    validators: {
+                        notEmpty: {
+                        },
+                        stringLength: {
+                            min: 4,
+                            max: 4,
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                        },
+                    }
+                },
+                'agreeTerms': {
+                    validators: {
+                        notEmpty: {
                         },
                     }
                 },

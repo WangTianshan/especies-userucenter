@@ -29,7 +29,7 @@ public class RegisterController {
 
     @Autowired
     private UserService userService;
-    @Value("${spring.mail.username}") private String fromEmail;
+    @Value("${spring.mail.username}") private String adminEmail;
 
     /**
      *<b>注册页面</b>
@@ -60,8 +60,7 @@ public class RegisterController {
             model.addAttribute("resultType", "signUpSuccess");
             model.addAttribute("alertMessage", registerMsg);
             model.addAttribute("newUser", newUser);
-            request.getSession().setAttribute("registerEmail",newUser.getEmail());
-            request.getSession().setAttribute("adminEmail",fromEmail);
+            model.addAttribute("adminEmail", adminEmail);
             return "index";
         }
         else{
@@ -96,7 +95,7 @@ public class RegisterController {
     public String active(Model model, HttpServletRequest request, HttpServletResponse response, @PathVariable String username, @PathVariable String mark) {
         String activeMsg=userService.activeUser(username,mark,request,response);
         model.addAttribute("activeMsg", activeMsg);
-        request.getSession().setAttribute("adminEmail",fromEmail);
+        request.getSession().setAttribute("adminEmail",adminEmail);
         if(activeMsg.equals("此账户已激活")||activeMsg.equals("This account has been activated")){
             model.addAttribute("activeStatus", true);
             model.addAttribute("loginUsername", username);
