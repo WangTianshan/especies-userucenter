@@ -1,14 +1,17 @@
 package org.big.especies.controller.rest;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.big.especies.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *<p><b>超级管理员Controller的Rest风格类</b></p>
@@ -25,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SignUpRestController {
     @Autowired
     private UserService userService;
+    @Value("${spring.mail.username}")
+    private String adminEmail;
 
     /**
      *<b>用户名重复</b>
@@ -54,5 +59,18 @@ public class SignUpRestController {
             return true;
         else
             return false;
+    }
+
+    /**
+     *<b>重发激活邮件</b>
+     *<p> 重发激活邮件</p>
+     * @author WangTianshan (王天山)
+     * @param request 页面请求
+     * @param response 页面响应
+     * @return String
+     */
+    @RequestMapping(value="/resendActiveEmail", method = {RequestMethod.POST})
+    public JSONObject resendActiveEmail(HttpServletRequest request, HttpServletResponse response) {
+        return this.userService.sendActiveEmail(request,response);
     }
 }

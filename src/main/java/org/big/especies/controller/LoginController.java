@@ -62,7 +62,6 @@ public class LoginController {
             }
             model.addAttribute("loginErrorMsg", loginErrorMsg);
         }catch(Exception e){
-            System.out.println("===========");
             System.out.println("loginErrorMsg="+loginErrorMsg);
         }
 

@@ -202,8 +202,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findOneByEmail(String email) {
-        System.out.println("email="+email);
         return this.userRepository.findOneByEmail(email);
+    }
+    @Override
+    public User findOneByEmailOrUsername(String key) {
+        return this.userRepository.findOneByUsernameOrEmail(key,key);
     }
 
 
@@ -239,10 +242,11 @@ public class UserServiceImpl implements UserService{
                             base_url=base_url+contextPath;
                         }
                         ///邮件的内容
-                        StringBuffer sb=new StringBuffer("生物记 Notes of Life<br/>");
+                        StringBuffer sb=new StringBuffer("物种多样性数据平台 Especies<br/>");
                         if(thisLanguage.equals("zh")){
-                            sb.append("记录我们身边的生物，公民科学从这里开始！<br/>");
+                            sb.append("物种多样性数据平台 - 用户中心<br/>");
                             sb.append("点击下面链接激活账号，请尽快激活！<br/>");
+                            sb.append("【"+newUser.getVerificationCodeExpiryTime()+" 之前有效】<br/>");
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
@@ -258,12 +262,13 @@ public class UserServiceImpl implements UserService{
                         else if(thisLanguage.equals("en")){
                             sb.append("Recording lives around us, citizen science starts from here.<br/>");
                             sb.append("Click the link below to activate the account, please activate it as soon as possible!<br/>");
-                            sb.append("<a href=\"http://"+base_url+"/register/active/");
+                            sb.append("【Effective before "+newUser.getVerificationCodeExpiryTime()+"】<br/>");
+                            sb.append("<a href=\"http://"+base_url+"/signup/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
                             sb.append(newUser.getVerificationCode());
                             sb.append("/");
-                            sb.append("\">http://"+base_url+"/register/active/");
+                            sb.append("\">http://"+base_url+"/signup/active/");
                             sb.append(newUser.getUsername());
                             sb.append("/");
                             sb.append(newUser.getVerificationCode());
@@ -271,7 +276,7 @@ public class UserServiceImpl implements UserService{
                             sb.append("</a>");
                         }
                         else{
-                            sb.append("Recording lives around us, citizen science starts from here.<br/>");
+                            sb.append("Especies - User center<br/>");
                             sb.append("Click the link below to activate the account, please activate it as soon as possible!<br/>");
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(newUser.getUsername());
@@ -291,7 +296,7 @@ public class UserServiceImpl implements UserService{
                         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                         helper.setFrom(fromEmail);
                         helper.setTo(newUser.getEmail());
-                        helper.setSubject("NoL 生物记");
+                        helper.setSubject("物种多样性数据平台 Especies");
                         helper.setText(sb.toString(), true);
 
                         //发送邮件
@@ -330,13 +335,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String sendActiveEmail(HttpServletRequest request, HttpServletResponse response) {
+    public JSONObject sendActiveEmail(HttpServletRequest request, HttpServletResponse response) {
         String thisLanguage=localeService.getLanguage(request,response);
-        String sendMsg="error";
+        JSONObject thisResult= new JSONObject();
+        String sendMsg="Error";
         //验证码判断
         if(request.getParameter("token").equals(request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY).toString())){
             //邮箱判断
-            User thisUser=this.findOneByEmail(request.getParameter("email"));
+            User thisUser=this.findOneByEmailOrUsername(request.getParameter("resend-email-key"));
             if(thisUser!=null){
                 //判断是否激活
                 if(thisUser.getStatus()==0){
@@ -347,50 +353,57 @@ public class UserServiceImpl implements UserService{
                         if(contextPath!=null && contextPath.length()>0){
                             base_url=base_url+contextPath;
                         }
+                        //过期时间
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(new Timestamp(System.currentTimeMillis()));
+                        c.add(Calendar.MINUTE, 10);
+                        thisUser.setVerificationCodeExpiryTime(c.getTime());
                         ///邮件的内容
-                        StringBuffer sb=new StringBuffer("AnimalSeeker<br/>");
+                        StringBuffer sb=new StringBuffer("物种多样性数据平台 Especies<br/>");
                         if(thisLanguage.equals("zh")){
-                            sb.append("记录身边的生物，公民科学从这里开始.<br/>");
+                            sb.append("物种多样性数据平台 - 用户中心<br/>");
                             sb.append("点击下面链接激活账号，请尽快激活！<br/>");
+                            sb.append("【"+thisUser.getVerificationCodeExpiryTime()+" 之前有效】<br/>");
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
                             sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
                         else if(thisLanguage.equals("en")){
                             sb.append("Recording lives around us, citizen science starts from here.<br/>");
                             sb.append("Click the link below to activate the account, please activate it as soon as possible!<br/>");
-                            sb.append("<a href=\"http://"+base_url+"/register/active/");
+                            sb.append("【Effective before "+thisUser.getVerificationCodeExpiryTime()+"】<br/>");
+                            sb.append("<a href=\"http://"+base_url+"/signup/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
-                            sb.append("\">http://"+base_url+"/register/active/");
+                            sb.append("\">http://"+base_url+"/signup/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
                         else{
-                            sb.append("Recording lives around us, citizen science starts from here.<br/>");
+                            sb.append("Especies - User center<br/>");
                             sb.append("Click the link below to activate the account, please activate it as soon as possible!<br/>");
                             sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
                             sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
-//                            sb.append(thisUser.getMark());
+                            sb.append(thisUser.getVerificationCode());
                             sb.append("/");
                             sb.append("</a>");
                         }
@@ -400,11 +413,12 @@ public class UserServiceImpl implements UserService{
                         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                         helper.setFrom(fromEmail);
                         helper.setTo(thisUser.getEmail());
-                        helper.setSubject("AnimalSeeker");
+                        helper.setSubject("物种多样性数据平台 Especies");
                         helper.setText(sb.toString(), true);
 
                         //发送邮件
                         mailSender.send(mimeMessage);
+                        this.saveOne(thisUser);
 
                         if(thisLanguage.equals("zh"))
                             sendMsg="发送成功";
@@ -412,6 +426,8 @@ public class UserServiceImpl implements UserService{
                             sendMsg="Send Success";
                         else
                             sendMsg="Send Success";
+
+                        thisResult.put("code",1);
                     }catch(Exception e){
                         if(thisLanguage.equals("zh"))
                             sendMsg="邮件发送失败";
@@ -447,7 +463,8 @@ public class UserServiceImpl implements UserService{
             else
                 sendMsg="Verification code is error";
         }
-        return sendMsg;
+        thisResult.put("result",sendMsg);
+        return thisResult;
     }
 
     @Override
@@ -460,13 +477,25 @@ public class UserServiceImpl implements UserService{
             if(thisUser.getStatus()==0){
                 //可正常激活
                 if(thisUser.getVerificationCode().equals(mark)){
-                    this.changeStatus(thisUser,1);
-                    if(thisLanguage.equals("zh"))
-                        activeMsg="此账户已激活";
-                    else if(thisLanguage.equals("en"))
-                        activeMsg="This account has been activated";
-                    else
-                        activeMsg="This account has been activated";
+                    //时间允许
+                    if(thisUser.getVerificationCodeExpiryTime().getTime()>=new Date().getTime()){
+                        this.changeStatus(thisUser,1);
+                        if(thisLanguage.equals("zh"))
+                            activeMsg="此账户已激活";
+                        else if(thisLanguage.equals("en"))
+                            activeMsg="This account has been activated";
+                        else
+                            activeMsg="This account has been activated";
+                    }
+                    else{
+                        //激活链接过期
+                        if(thisLanguage.equals("zh"))
+                            activeMsg="激活链接过期";
+                        else if(thisLanguage.equals("en"))
+                            activeMsg="Outdated link";
+                        else
+                            activeMsg="Outdated link";
+                    }
                 }
                 else{
                     //激活失败

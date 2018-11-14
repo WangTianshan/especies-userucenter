@@ -60,6 +60,13 @@ public interface UserRepository extends BaseRepository<User, String> {
      */
     User findOneByEmail(String name);
 
+    /**
+     *<b>根据User的Email or UserName or 手机查询一个符合条件的User</b>
+     *<p> 根据User的Email or UserName or 手机查询一个符合条件的User</p>
+     * @author WangTianshan (王天山)
+     * @return org.springframework.data.domain.Page<org.big.entity.User>
+     */
+    User findOneByUsernameOrEmail(String userName,String email);
 
 
     /**

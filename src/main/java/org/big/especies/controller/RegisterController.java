@@ -98,11 +98,16 @@ public class RegisterController {
         request.getSession().setAttribute("adminEmail",adminEmail);
         if(activeMsg.equals("此账户已激活")||activeMsg.equals("This account has been activated")){
             model.addAttribute("activeStatus", true);
-            model.addAttribute("loginUsername", username);
         }
         else{
             model.addAttribute("activeStatus", false);
         }
+        String signType="signIn";
+        User newUser =new User();
+        newUser.setUsername(username);
+        model.addAttribute("newUser", newUser);
+        model.addAttribute("signType", signType);
+
         return "index";
     }
 }

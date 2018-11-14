@@ -1,6 +1,7 @@
 package org.big.especies.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.big.especies.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -92,6 +93,15 @@ public interface UserService {
     User findOneByEmail(String email);
 
     /**
+     *<b>根据email查找一个实体</b>
+     *<p> 据email查找一个实体</p>
+     * @author WangTianshan (王天山)
+     * @param key
+     * @return org.big.entity.User
+     */
+    User findOneByEmailOrUsername(String key);
+
+    /**
      *<b>注册</b>
      *<p> 注册</p>
      * @author WangTianshan (王天山)
@@ -110,7 +120,7 @@ public interface UserService {
      * @param response 页面响应
      * @return java.lang.String
      */
-    String sendActiveEmail(HttpServletRequest request, HttpServletResponse response);
+    JSONObject sendActiveEmail(HttpServletRequest request, HttpServletResponse response);
 
     /**
      *<b>激活用户</b>

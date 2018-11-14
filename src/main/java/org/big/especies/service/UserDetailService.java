@@ -31,14 +31,14 @@ public class UserDetailService implements UserDetailsService {
      *<b>根据用户名读取当前用户的信息</b>
      *<p> 用户登录功能的部分</p>
      * @author WangTianshan (王天山)
-     * @param userName 用户输入的用户名
+     * @param key 用户输入的用户名orEmail
      * @return org.springframework.security.core.userdetails.UserDetails
      */
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String key) throws UsernameNotFoundException {
         User user;
         try {
-            user = userService.findOneByName(userName);
+            user = userService.findOneByEmailOrUsername(key);
         } catch (Exception e) {
             throw new UsernameNotFoundException("读取数据库失败");
         }
