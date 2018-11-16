@@ -31,6 +31,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     private String uploadPath = "upload/";
+
     /**
      *<b>我的数据中心</b>
      *<p> 我的数据中心</p>

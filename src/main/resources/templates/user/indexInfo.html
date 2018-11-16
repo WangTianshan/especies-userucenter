@@ -1,0 +1,40 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+  <div class="alert alert-dark card-black" role="alert">
+    <p></p>
+    <img th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture())}" th:src="@{/img/user-none-160x160.jpg}"
+         class="col-sm-4 rounded-circle float-left" alt="User Image">
+    <img th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture())}" th:src="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture()}"
+         class="col-sm-4 rounded-circle float-left" alt="User Image">
+    <p></p>
+    <h4 class="alert-heading" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getUsername()}">Name</h4>
+    <hr>
+    <p>
+    <dl class="row">
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail())}" th:text="#{forms_email}+'：'" class="col-sm-5">邮箱：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail()}"></dd>
+
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile())}" th:text="#{forms_mobile}+'：'" class="col-sm-5">手机：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile()}"></dd>
+
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname())}" th:text="#{forms_nickname}+'：'" class="col-sm-5">昵称：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname()}"></dd>
+
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName())}" th:text="#{forms_real_name}+'：'" class="col-sm-5">姓名：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName()}"></dd>
+
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime())}" th:text="#{forms_sign_up_time}+'：'" class="col-sm-5">注册时间：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime())}" class="col-sm-7" th:text="${#dates.format(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime(), 'yyyy-MM-dd hh:mm:ss')}"></dd>
+
+      <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime())}" th:text="#{forms_last_sign_in_time}+'：'" class="col-sm-5">最后登陆：</dt>
+      <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime())}" class="col-sm-7" th:text="${#dates.format(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime(), 'yyyy-MM-dd hh:mm:ss')}"></dd>
+    </dl>
+    </p>
+    <hr>
+    <p class="mb-0">天山~~~~~~~~~~~~~~~~~~~~~~~</p>
+    <hr>
+    <a href="#" class="btn btn-outline-light" th:text="#{forms_personal_center}">个人中心</a>
+    <a href="#" data-toggle="modal" data-target="#modal-sign-out" class="btn btn-dark float-right" th:text="#{forms_sign_out}">注销</a>
+  </div>
+</th:block>
+</html>

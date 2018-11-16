@@ -1,0 +1,45 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+  <form id="sign-in-form" th:action="@{/login}" action="login" method="post" th:object="${newUser}" onsubmit="return false;" onkeydown="if(event.keyCode==13) return signIn();">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="sign-in-key" th:text="#{forms_sign_in_key}">注册邮箱或手机</label>
+        <input type="text" class="form-control" th:field="*{username}" id="sign-in-key" th:placeholder="#{forms_sign_in_key_placeholder}" placeholder="请输入注册邮箱地址或注册手机号">
+        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+      </div>
+      <div class="form-group col-md-6">
+        <label for="sign-in-password" th:text="#{forms_sign_in_password}">Password</label>
+        <input type="password" class="form-control" name="password" id="sign-in-password" th:placeholder="#{forms_sign_in_password_placeholder}" placeholder="请输入密码">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="sign-in-token" th:text="#{forms_sign_in_token}">Token</label>
+        <div class="input-group">
+          <a class="input-group-prepend" onclick="reImg()">
+            <div class="input-group-text form-code-img">
+              <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
+            </div>
+          </a>
+          <input type="text" class="form-control" name="token" id="sign-in-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
+        </div>
+      </div>
+    </div>
+    <div th:if="${resultType eq 'signUpSuccess'}" class="alert alert-success" role="alert">
+      <h4 class="alert-heading" th:text="#{msg_sign_up_success}">成功</h4>
+      <p th:text="#{msg_sign_up_activate_msg}"></p>
+      <hr>
+      <p class="mb-0" th:text="#{msg_sign_up_activate_email_1}+${adminEmail}+#{msg_sign_up_activate_email_2}"></p>
+    </div>
+    <div th:if="${activeStatus eq true}" class="alert alert-success" role="alert">
+      <p th:text="${activeMsg}"></p>
+    </div>
+    <div th:if="${activeStatus eq false}" class="alert alert-danger" role="alert">
+      <p th:text="${activeMsg}"></p>
+    </div>
+    <div id="sign-in-alert"></div>
+    <!--<button type="submit" class="btn btn-success" th:text="#{forms_sign_in_submit}">Submit</button>-->
+    <button type="submit" class="btn btn-success" th:text="#{forms_sign_in_submit}" onclick="signIn();">Submit</button>
+  </form>
+</th:block>
+</html>

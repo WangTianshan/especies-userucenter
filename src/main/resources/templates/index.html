@@ -22,8 +22,45 @@
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="especies-white col-lg-6 d-none d-sm-block">
-                <h3>大标题</h3>
-                <p>is a development platform inspired by the way you work. From open source to business, you can host and review code, manage projects, and build software alongside 31 million developers. </p>
+
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src="images/subproject/01.png" alt=" ">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="#{items_col}">1</h5>
+                                <p>收录中国生物物种名称与分类系统，覆盖动物、植物、微生物，逐年发布。</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="images/subproject/02.png" alt=" ">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="#{items_mapbio}">1</h5>
+                                <p>整合中国生物物种分布数据，以地图形式进行发布共享，支持科学研究、政府决策与公民科学。</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="images/subproject/03.png" alt=" ">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="#{items_nol}">1</h5>
+                                <p>记录我们身边的生物，探索地球的生物多样性。公民科学从这里开始!</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img class="d-block w-100" src="images/subproject/04.png" alt=" ">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5 th:text="#{items_eol}">1</h5>
+                                <p>为全世界提供地球上生命的知识。通过网络生命大百科增加人们对生物的认知和理解。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="accordion" class="especies-white col-md-12 col-lg-6">
                 <div class="card card-black">
@@ -39,49 +76,9 @@
                             'collapse show':
                             'collapse'"
                     >
-                    <!--<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">-->
                         <div class="card-body">
-                            <form id="sign-in-form" th:action="@{/login}" action="login" method="post" th:object="${newUser}" onsubmit="return false;" onkeydown="if(event.keyCode==13) return signIn();">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-in-key" th:text="#{forms_sign_in_key}">注册邮箱或手机</label>
-                                        <input type="text" class="form-control" th:field="*{username}" id="sign-in-key" th:placeholder="#{forms_sign_in_key_placeholder}" placeholder="请输入注册邮箱地址或注册手机号">
-                                        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-in-password" th:text="#{forms_sign_in_password}">Password</label>
-                                        <input type="password" class="form-control" name="password" id="sign-in-password" th:placeholder="#{forms_sign_in_password_placeholder}" placeholder="请输入密码">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-in-token" th:text="#{forms_sign_in_token}">Token</label>
-                                        <div class="input-group">
-                                            <a class="input-group-prepend" onclick="reImg()">
-                                                <div class="input-group-text form-code-img">
-                                                    <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
-                                                </div>
-                                            </a>
-                                            <input type="text" class="form-control" name="token" id="sign-in-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div th:if="${resultType eq 'signUpSuccess'}" class="alert alert-success" role="alert">
-                                    <h4 class="alert-heading" th:text="#{msg_sign_up_success}">成功</h4>
-                                    <p th:text="#{msg_sign_up_activate_msg}"></p>
-                                    <hr>
-                                    <p class="mb-0" th:text="#{msg_sign_up_activate_email_1}+${adminEmail}+#{msg_sign_up_activate_email_2}"></p>
-                                </div>
-                                <div th:if="${activeStatus eq true}" class="alert alert-success" role="alert">
-                                    <p th:text="${activeMsg}"></p>
-                                </div>
-                                <div th:if="${activeStatus eq false}" class="alert alert-danger" role="alert">
-                                    <p th:text="${activeMsg}"></p>
-                                </div>
-                                <div id="sign-in-alert"></div>
-                                <!--<button type="submit" class="btn btn-success" th:text="#{forms_sign_in_submit}">Submit</button>-->
-                                <button type="submit" class="btn btn-success" th:text="#{forms_sign_in_submit}" onclick="signIn();">Submit</button>
-                            </form>
+                            <!-- 引入signInForm -->
+                            <th:block th:substituteby="signIn/signInForm :: copy"></th:block>
                         </div>
                     </div>
                     <div class="card-header" id="headingTwo">
@@ -96,106 +93,16 @@
                             'collapse show':
                             'collapse'"
                     >
-                    <!--<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">-->
                         <div class="card-body">
-                            <form id="sign-up-form" th:action="@{/register/new}" action="register/new" method="post" th:object="${newUser}" onsubmit="return false;" onkeydown="if(event.keyCode==13) return signUp();">
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-up-username" th:text="#{forms_sign_up_username}">用户名</label>
-                                        <input type="text" class="form-control" th:field="*{username}" id="sign-up-username" th:placeholder="#{forms_sign_up_username_placeholder}" placeholder="请输入用户名">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-up-email" th:text="#{forms_sign_up_email}">Email</label>
-                                        <input type="text" class="form-control" th:field="*{email}" id="sign-up-email" th:placeholder="#{forms_sign_up_email_placeholder}" placeholder="请输入注册邮箱地址">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-up-password" th:text="#{forms_sign_up_password}">Password</label>
-                                        <input type="password" class="form-control" th:field="*{pwd}" id="sign-up-password" th:placeholder="#{forms_sign_up_password_placeholder}" placeholder="请输入密码">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-up-repassword" th:text="#{forms_sign_up_repassword}">RePassword</label>
-                                        <input type="password" class="form-control" name="sign-up-repassword" id="sign-up-repassword" th:placeholder="#{forms_sign_up_repassword_placeholder}" placeholder="请再次输入密码">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input name="agreeTerms" class="form-check-input" type="checkbox" id="termsCheck">
-                                        <label class="form-check-label" for="termsCheck">
-                                            <span th:text="#{forms_sign_up_agree}">I agree to the</span>
-                                            <a href="#" data-toggle="modal" data-target="#modal-terms" th:text="#{forms_sign_up_terms}">terms</a>
-                                            <!--<button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal-terms" th:text="#{forms_sign_up_terms}">-->
-                                                <!--terms-->
-                                            <!--</button>-->
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="sign-in-token" th:text="#{forms_sign_in_token}">Token</label>
-                                        <div class="input-group">
-                                            <a class="input-group-prepend" onclick="reImg()">
-                                                <div class="input-group-text form-code-img">
-                                                    <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
-                                                </div>
-                                            </a>
-                                            <input type="text" class="form-control" name="token" id="sign-up-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div th:if="${resultType eq 'signUpError'}" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert">
-                                    <strong th:text="#{alert_warning}+'：'">提示：</strong>
-                                    <p th:text="${errorMessage}"></p>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-
-                                <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}" onclick="signUp();">Sign up</button>
-                            </form>
+                            <!-- 引入signInForm -->
+                            <th:block th:substituteby="signUp/signUpForm :: copy"></th:block>
                         </div>
                     </div>
                 </div>
             </div>
             <div th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="userin" class="especies-white col-md-12 col-lg-6">
-                <div class="alert alert-dark card-black" role="alert">
-                    <p></p>
-                    <img th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture())}" th:src="@{/img/user-none-160x160.jpg}"
-                         class="col-sm-4 rounded-circle float-left" alt="User Image">
-                    <img th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture())}" th:src="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getProfilePicture()}"
-                         class="col-sm-4 rounded-circle float-left" alt="User Image">
-                    <p></p>
-                    <h4 class="alert-heading" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getUsername()}">Name</h4>
-                    <hr>
-                    <p>
-                        <dl class="row">
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail())}" th:text="#{forms_email}+'：'" class="col-sm-5">邮箱：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getEmail()}"></dd>
-
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile())}" th:text="#{forms_mobile}+'：'" class="col-sm-5">手机：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getMobile()}"></dd>
-
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname())}" th:text="#{forms_nickname}+'：'" class="col-sm-5">昵称：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getNickname()}"></dd>
-
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName())}" th:text="#{forms_real_name}+'：'" class="col-sm-5">姓名：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName())}" class="col-sm-7" th:text="${session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getRealName()}"></dd>
-
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime())}" th:text="#{forms_sign_up_time}+'：'" class="col-sm-5">注册时间：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime())}" class="col-sm-7" th:text="${#dates.format(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getSignUpTime(), 'yyyy-MM-dd hh:mm:ss')}"></dd>
-
-                            <dt th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime())}" th:text="#{forms_last_sign_in_time}+'：'" class="col-sm-5">最后登陆：</dt>
-                            <dd th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime())}" class="col-sm-7" th:text="${#dates.format(session.SPRING_SECURITY_CONTEXT.getAuthentication().getPrincipal().getLastSignInTime(), 'yyyy-MM-dd hh:mm:ss')}"></dd>
-                        </dl>
-                    </p>
-                    <hr>
-                    <p class="mb-0">天山~~~~~~~~~~~~~~~~~~~~~~~</p>
-                    <hr>
-                    <a href="#" class="btn btn-outline-light" th:text="#{forms_personal_center}">个人中心</a>
-                    <a href="#" data-toggle="modal" data-target="#modal-sign-out" class="btn btn-dark float-right" th:text="#{forms_sign_out}">注销</a>
-                </div>
+                <!-- 引入indexInfo -->
+                <th:block th:substituteby="user/indexInfo :: copy"></th:block>
             </div>
         </div>
     </div>
@@ -203,84 +110,18 @@
 </section>
 <!-- 协议 -->
 <div th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-terms-title" th:text="#{forms_sign_up_terms}">terms</h5>
-                <button type="button" class="close" id="closeTerms" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p><b>1、关于Especies</b></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;目的是通过公民科学积累物种相关数据，支持生物多样性研究。<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;Especies提供数据管理、共享及交流平台，不进行数据交易。数据用户可以联系数据提供者获取质量更高的数据。</p>
-                <p><b>2、数据共享</b></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;所有多媒体数据根据CC协议进行共享标注，数据提供者在上传数据时都要指定自己数据的共享方式。<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;数据用户必须遵守数据共享政策，违反数据共享政策者，一旦发现将依法追究其侵犯版权的行为。</p>
-                <p><b>3、数据所有权人权利</b></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;数据版权归数据所有权人所有，数据上传者必须上传自己拥有版权的数据，如果自己不拥有版权，必须符合原始数据的CC共享协议。</p>
-                <p><b>4、用户权利及义务：</b></p>
-                <p>&nbsp;&nbsp;&nbsp;&nbsp;所有用户在Especies网站或APP提交的数据必须跟生物物种相关，无关的数据将被管理员删除。所有用户必须遵守国家相关法律规定，不得传播违反法律禁止的内容。</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" th:text="#{forms_cancel}">取消</button>
-                <button type="button" class="btn btn-success" th:text="#{forms_sign_up_i_agree}" onclick="agreeTerms();">I agree</button>
-            </div>
-        </div>
-    </div>
+    <!-- 引入indexInfo -->
+    <th:block th:substituteby="signUp/signUpTermsModal :: copy"></th:block>
 </div>
 <!-- 注销 -->
 <div th:if="${not #lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="modal-sign-out" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modal-sign-out">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" th:text="#{forms_sign_out}">注销</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" th:text="#{forms_sign_out_confirm}">
-                是否注销当前用户？
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default float-left" data-dismiss="modal" th:text="#{forms_cancel}">取消</button>
-                <a th:href="@{/logout}" class="btn btn-dark" th:text="#{forms_sign_out}">注销</a>
-            </div>
-        </div>
-    </div>
+    <!-- 引入signOutModal -->
+    <th:block th:substituteby="signOut/signOutModal :: copy"></th:block>
 </div>
 <!-- 重发邮件 -->
 <div th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" id="modal-email-resend" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="modal-email-resend">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" th:text="#{forms_resend_email}">重发邮件</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="resend-email-form" th:action="@{/}" method="post" onsubmit="return false;" onkeydown="if(event.keyCode==13) return resendActiveEmail();">
-                    <input type="text" class="hidden" name="resend-email-key" id="resend-email-key">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <a class="input-group-prepend" onclick="reImg()">
-                                <div class="input-group-text form-code-img">
-                                    <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
-                                </div>
-                            </a>
-                            <input type="text" class="form-control" name="token" id="resend-email-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default float-left" data-dismiss="modal" th:text="#{forms_cancel}">取消</button>
-                <button type="button" class="btn btn-dark" th:text="#{forms_resend_email}" onclick="resendActiveEmail();">重发</button>
-            </div>
-        </div>
-    </div>
+    <!-- 引入resendEmailModal -->
+    <th:block th:substituteby="signUp/resendEmailModal :: copy"></th:block>
 </div>
 <!-- 引入footer -->
 <th:block th:substituteby="pageFrame/basicsFooter :: copy"></th:block>
@@ -288,7 +129,6 @@
 <th:block th:substituteby="pageFrame/basicsJs :: copy"></th:block>
 <!-- jquery.tmpl -->
 <script th:src="@{/plugins/jquery.tmpl/jquery.tmpl.min.js}"></script>
-
 <script th:inline="javascript">
     /*<![CDATA[*/
     var warning_illegal_character= [[#{msg_illegal_character}]];
@@ -304,348 +144,9 @@
         $(".codeImg").attr("src", 'captchaImg?code='+Math.random());
     }
 </script>
-<!-- 构造模板 -->
-<script id="tmpl-sign-in-error" type="text/x-jquery-tmpl">
-    <div id="sign-in-alert-error" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert" style="display:none;">
-        <strong>{{= title}}：</strong>
-        <p>{{= result}}</p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</script>
-<!-- 构造模板 -->
-<script id="tmpl-sign-in-no-activated" type="text/x-jquery-tmpl">
-    <div id="sign-in-alert-error" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert" style="display:none;">
-        <strong>{{= title}}：</strong>
-        <p>{{= result}}</p>
-        <p th:text="#{msg_sign_in_activate_msg}"></p>
-        <p>
-        <a href="#" data-toggle="modal" data-target="#modal-email-resend" class="btn btn-outline-light" th:text="#{forms_resend_email}">再次发送邮件</a>
-        </p>
-        <hr>
-        <p class="mb-0" th:text="#{msg_sign_up_activate_email_1}+${adminEmail}+#{msg_sign_up_activate_email_2}"></p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-</script>
-<script>
-    function signIn() {
-        layer.load(2);
-        if(!$('#sign-in-form').data('bootstrapValidator').isValid()){
-            $('#sign-in-form').data('bootstrapValidator').validate();
-            layer.closeAll('loading');
-        }
-        else{
-            var options = {url:'login',type:'post',cache:false,dataType:'json',
-                success:function(data){
-                    if(data.result=='Login Success' || data.result=='登录成功'){
-                        $.ajax({url:"user/rest/updata/signInTime",async:true});
-                        layer.msg(data.result,
-                            {
-                                time: 500, //1.5s后自动关闭
-                            },
-                            function(){
-                                window.location.reload();//刷新当前页面.
-                                layer.closeAll('loading');
-                            });
-                    }
-                    else if(data.result=='This account was not activated' || data.result=='该账户未激活'){
-                        showSignInNoActivated(data);
-                        layer.closeAll('loading');
-                    }
-                    else{
-                        layer.closeAll('loading');
-                        showSignInError(data);
-                    }
-                },
-                error:function(){
-                    layer.msg("页面会话时间过长，自动刷新后请重新登录",
-                        {
-                            time: 1500, //1.5s后自动关闭
-                        },
-                        function(){
-                            window.location.reload();//刷新当前页面.
-                        });
-                }
-            }
-            $("#sign-in-form").ajaxSubmit(options);
-        }
-    }
-    function signUp() {
-        layer.load(2);
-        if(!$('#sign-up-form').data('bootstrapValidator').isValid()){
-            $('#sign-up-form').data('bootstrapValidator').validate();
-            layer.closeAll('loading');
-        }
-        else{
-            $("#sign-up-form").submit(function(e){
-                //layer.closeAll('loading');
-            });
-        }
-    }
-    function agreeTerms() {
-        $('#termsCheck').prop("checked",true);
-        $('#closeTerms').click();
-        $('#sign-up-form').data('bootstrapValidator').updateStatus('agreeTerms', 'NOT_VALIDATED').validateField('agreeTerms');
-    };
-    function resendActiveEmail() {
-        layer.load(2);
-        if(!$('#resend-email-form').data('bootstrapValidator').isValid()){
-            $('#resend-email-form').data('bootstrapValidator').validate();
-            layer.closeAll('loading');
-        }
-        else{
-            var options = {url:'signup/rest/resendActiveEmail',type:'post',cache:false,dataType:'json',
-                success:function(data){
-                    layer.msg(data.result,
-                        {
-                            time: 2000, //1.5s后自动关闭
-                        },
-                        function(){
-                            reImg();
-                            if(data.code==1)
-                                $('#modal-email-resend').modal('hide');
-                            layer.closeAll('loading');
-                        });
-                },
-                error:function(){
-                    layer.msg("error",
-                        {
-                            time: 1500, //1.5s后自动关闭
-                        },
-                        function(){
-                            window.location.reload();//刷新当前页面.
-                        });
-                }
-            }
-            $("#resend-email-form").ajaxSubmit(options);
-        }
-    }
-    //显示登陆错误提示
-    function showSignInError(message) {
-        $("#sign-in-alert-error").remove();
-        $("#tmpl-sign-in-error").tmpl(message).appendTo("#sign-in-alert").ready(function () {
-            $('#sign-in-alert-error').fadeIn();
-        });
-    }
-    //显示未激活提示
-    function showSignInNoActivated(message) {
-        $("#resend-email-key").val($("#sign-in-key").val());
-        $("#sign-in-alert-error").remove();
-        $("#tmpl-sign-in-no-activated").tmpl(message).appendTo("#sign-in-alert").ready(function () {
-            $('#sign-in-alert-error').fadeIn();
-        });
-    }
-    //前端验证
-        //获取host
-        //$("#base_url").val(window.location.host);
-        $('#sign-in-form').bootstrapValidator({
-            message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon ',
-                invalid: 'glyphicon ',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                rename: {
-                    selector: '#sign-in-key',
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 2,
-                            max: 30,
-                        },
-                        // regexp: {
-                        //     regexp: /^[a-zA-Z0-9_\.]+$/,
-                        //     message: warning_name
-                        // },
-                    }
-                },
-                'password': {
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 5,
-                            max: 20,
-                        },
-                    }
-                },
-                'token': {
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 4,
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                        },
-                    }
-                },
-            }
-        });
-        $('#sign-up-form').bootstrapValidator({
-            message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon ',
-                invalid: 'glyphicon ',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                rename: {
-                    selector: '#sign-up-username',
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 2,
-                            max: 30,
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                            message: warning_illegal_character
-                        },
-                        callback: {
-                            message: warning_rename,
-                            callback: function(value, validator) {
-                                validator_name='signup/rest/isReName';
-                                $.ajax({
-                                    url: 'signup/rest/isReName',
-                                    data: {
-                                        name:$('#sign-up-username').val()},
-                                    cache: false,
-                                    dataType:"json",
-                                    success: function (data) {
-                                        if(!data){
-                                            validator.updateStatus('rename', 'VALID', 'callback');
-                                            return true;
-                                        }
-                                        else {
-                                            return false;
-                                        }
-                                    },
-                                    error: function () {
-                                        //alert("error");
-                                        return false;
-                                    }
-                                });
-                                return false;
-                            }
-                        },
-                    }
-                },
-                reemail: {
-                    selector: '#sign-up-email',
-                    validators: {
-                        notEmpty: {
-                        },
-                        emailAddress: {
-                        },
-                        stringLength: {
-                            min: 3,
-                            max: 70,
-                        },
-                        callback: {
-                            message: warning_remeail,
-                            callback: function(value, validator) {
-                                validator_email='signup/rest/isReEmail';
-                                $.ajax({
-                                    url: 'signup/rest/isReEmail',
-                                    data: {
-                                        email:$('#sign-up-email').val()
-                                    },
-                                    cache: false,
-                                    dataType:"json",
-                                    success: function (data) {
-                                        if(!data){
-                                            validator.updateStatus('reemail', 'VALID', 'callback');
-                                            return true;
-                                        }
-                                        else {
-                                            return false;
-                                        }
-                                    },
-                                    error: function () {
-                                        //alert("error");
-                                        return false;
-                                    }
-                                });
-                                return false;
-                            }
-                        },
-                    }
-                },
-                pwd: {
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 5,
-                            max: 30,
-                        },
-                        identical: {
-                            field: 'sign-up-repassword',
-                        }
-                    }
-                },
-                'sign-up-repassword': {
-                    validators: {
-                        notEmpty: {
-                        },
-                        identical: {
-                            field: 'pwd',
-                        }
-                    }
-                },
-                'token': {
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 4,
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                        },
-                    }
-                },
-                'agreeTerms': {
-                    validators: {
-                        notEmpty: {
-                        },
-                    }
-                },
-            }
-        });
-        $('#resend-email-form').bootstrapValidator({
-            message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon ',
-                invalid: 'glyphicon ',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                'token': {
-                    validators: {
-                        notEmpty: {
-                        },
-                        stringLength: {
-                            min: 4,
-                            max: 4,
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                        },
-                    }
-                },
-            }
-        });
-</script>
+<!-- 引入登陆Js：signInJs -->
+<th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:substituteby="signIn/signInJs :: copy"></th:block>
+<!-- 引入注册Js：signUpJs -->
+<th:block th:if="${#lists.isEmpty(session.SPRING_SECURITY_CONTEXT)}" th:substituteby="signUp/signUpJs :: copy"></th:block>
 </body>
 </html>

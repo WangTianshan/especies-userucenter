@@ -1,0 +1,59 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+  <form id="sign-up-form" th:action="@{/register/new}" action="register/new" method="post" th:object="${newUser}" onsubmit="return false;" onkeydown="if(event.keyCode==13) return signUp();">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="sign-up-username" th:text="#{forms_sign_up_username}">用户名</label>
+        <input type="text" class="form-control" th:field="*{username}" id="sign-up-username" th:placeholder="#{forms_sign_up_username_placeholder}" placeholder="请输入用户名">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="sign-up-email" th:text="#{forms_sign_up_email}">Email</label>
+        <input type="text" class="form-control" th:field="*{email}" id="sign-up-email" th:placeholder="#{forms_sign_up_email_placeholder}" placeholder="请输入注册邮箱地址">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="sign-up-password" th:text="#{forms_sign_up_password}">Password</label>
+        <input type="password" class="form-control" th:field="*{pwd}" id="sign-up-password" th:placeholder="#{forms_sign_up_password_placeholder}" placeholder="请输入密码">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="sign-up-repassword" th:text="#{forms_sign_up_repassword}">RePassword</label>
+        <input type="password" class="form-control" name="sign-up-repassword" id="sign-up-repassword" th:placeholder="#{forms_sign_up_repassword_placeholder}" placeholder="请再次输入密码">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input name="agreeTerms" class="form-check-input" type="checkbox" id="termsCheck">
+        <label class="form-check-label" for="termsCheck">
+          <span th:text="#{forms_sign_up_agree}">I agree to the</span>
+          <a href="#" data-toggle="modal" data-target="#modal-terms" th:text="#{forms_sign_up_terms}">terms</a>
+          <!--<button type="button" class="btn btn-link" data-toggle="modal" data-target="#modal-terms" th:text="#{forms_sign_up_terms}">-->
+          <!--terms-->
+          <!--</button>-->
+        </label>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="sign-up-token" th:text="#{forms_sign_in_token}">Token</label>
+        <div class="input-group">
+          <a class="input-group-prepend" onclick="reImg()">
+            <div class="input-group-text form-code-img">
+              <img style="height:32px;" class="codeImg" th:src="@{/captchaImg}" th:title="#{forms_change_token}"/>
+            </div>
+          </a>
+          <input type="text" class="form-control" name="token" id="sign-up-token" th:placeholder="#{forms_sign_in_token_placeholder}" placeholder="请输入验证码">
+        </div>
+      </div>
+    </div>
+    <div th:if="${resultType eq 'signUpError'}" class="alert alert-danger alert-outline-danger alert-dismissible fade show" role="alert">
+      <strong th:text="#{alert_warning}+'：'">提示：</strong>
+      <p th:text="${errorMessage}"></p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}" onclick="signUp();">Sign up</button>
+  </form>
+</th:block>
+</html>

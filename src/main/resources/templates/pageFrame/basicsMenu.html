@@ -1,5 +1,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<section class="menu cid-menu" once="menu" id="menu1-e" th:fragment="copy">
+<th:block th:fragment="copy">
+<section class="menu cid-menu" once="menu" id="menu1-e">
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <div class="hamburger">
@@ -13,10 +14,10 @@
             <div class="navbar-brand">
                 <span class="navbar-logo">
                     <a href="#">
-                         <img th:src="@{/images/logo.png}" alt="ESPECIES" style="height: 3.8rem;">
+                         <img src="images/logo.png" alt="ESPECIES" style="height: 3.8rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" th:href="@{/}" th:text="#{webName}">ESPECIES</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-white display-4" href="" th:text="#{webName}">ESPECIES</a></span>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,20 +27,9 @@
             </li><li class="nav-item"><a class="nav-link link text-white display-4" href="#">
             </a></li>
                 <li class="nav-item">
-                    <a class="nav-link link text-white display-4" th:href="@{/}" th:text="#{menu_home}">
+                    <a class="nav-link link text-white display-4" href="" th:text="#{menu_home}">
                         首页
                     </a>
-                </li>
-                <li class="nav-item dropdown open">
-                    <a class="nav-link link text-white dropdown-toggle display-4" href="#" data-toggle="dropdown-submenu" th:text="#{menu_items}">
-                        项目
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="text-white dropdown-item display-4" href="http://sp2000.org.cn/" target="_blank" th:text="#{items_col}">CoL</a>
-                        <a class="text-white dropdown-item display-4" href="http://www.mapbio.org/" target="_blank" th:text="#{items_mapbio}">MapBio</a>
-                        <a class="text-white dropdown-item display-4" href="http://nol.especies.cn/" target="_blank" th:text="#{items_nol}">NoL</a>
-                        <a class="text-white dropdown-item display-4" href="#" th:text="#{items_eol}">EoL</a>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link text-white display-4" href="#" th:text="#{menu_aboutUs}">
@@ -59,4 +49,5 @@
         </div>
     </nav>
 </section>
+</th:block>
 </html>

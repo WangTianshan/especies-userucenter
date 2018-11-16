@@ -1,0 +1,30 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="copy">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-terms-title" th:text="#{forms_sign_up_terms}">terms</h5>
+                <button type="button" class="close" id="closeTerms" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><b>1、关于Especies</b></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;目的是通过公民科学积累物种相关数据，支持生物多样性研究。<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;Especies提供数据管理、共享及交流平台，不进行数据交易。数据用户可以联系数据提供者获取质量更高的数据。</p>
+                <p><b>2、数据共享</b></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;所有多媒体数据根据CC协议进行共享标注，数据提供者在上传数据时都要指定自己数据的共享方式。<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;数据用户必须遵守数据共享政策，违反数据共享政策者，一旦发现将依法追究其侵犯版权的行为。</p>
+                <p><b>3、数据所有权人权利</b></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;数据版权归数据所有权人所有，数据上传者必须上传自己拥有版权的数据，如果自己不拥有版权，必须符合原始数据的CC共享协议。</p>
+                <p><b>4、用户权利及义务：</b></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;所有用户在Especies网站或APP提交的数据必须跟生物物种相关，无关的数据将被管理员删除。所有用户必须遵守国家相关法律规定，不得传播违反法律禁止的内容。</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" th:text="#{forms_cancel}">取消</button>
+                <button type="button" class="btn btn-success" th:text="#{forms_sign_up_i_agree}" onclick="agreeTerms();">I agree</button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
