@@ -30,8 +30,8 @@
       //登陆
       function signIn() {
           layer.load(2);
+          $('#sign-in-form').data('bootstrapValidator').validate();
           if(!$('#sign-in-form').data('bootstrapValidator').isValid()){
-              $('#sign-in-form').data('bootstrapValidator').validate();
               layer.closeAll('loading');
           }
           else{

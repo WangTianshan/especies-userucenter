@@ -1,6 +1,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="copy">
-  <form id="sign-up-form" th:action="@{/register/new}" action="register/new" method="post" th:object="${newUser}" onkeydown="if(event.keyCode==13) return signUp();">
+  <form id="sign-up-form" th:action="@{/register/new}" action="register/new" method="post" th:object="${newUser}">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="sign-up-username" th:text="#{forms_sign_up_username}">用户名</label>
@@ -53,7 +53,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}" onclick="signUp();">Sign up</button>
+    <button type="submit" class="btn btn-success" th:text="#{forms_sign_up}">Sign up</button>
   </form>
 </th:block>
 </html>

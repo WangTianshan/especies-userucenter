@@ -2,17 +2,35 @@
 <th:block th:fragment="copy">
   <script>
       function signUp() {
-          layer.load(2);
+          //layer.load(2);
+          $('#sign-up-form').data('bootstrapValidator').validate();
           if(!$('#sign-up-form').data('bootstrapValidator').isValid()){
-              $('#sign-up-form').data('bootstrapValidator').validate();
               layer.closeAll('loading');
+              return false;
           }
           else{
-              $("#sign-up-form").submit(function(e){
-                  layer.closeAll('loading');
-              });
+              return true;
           }
       }
+
+      $("#sign-up-form").submit(function(e){
+          layer.load(2);
+          if(!$('#sign-up-form').data('bootstrapValidator').isValid()){
+              layer.closeAll('loading');
+          }
+      });
+
+      // $("#sign-up-form").submit(function(e){
+      //     //alert(1);
+      //     a=a+1;
+      //     console.log(a);
+      //     layer.load(2);
+      //     if(!signUp()){
+      //         e.preventDefault();
+      //     }
+      //     e.preventDefault();
+      // });
+
       function agreeTerms() {
           $('#termsCheck').prop("checked",true);
           $('#closeTerms').click();
