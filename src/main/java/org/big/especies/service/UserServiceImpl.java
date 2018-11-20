@@ -693,7 +693,8 @@ public class UserServiceImpl implements UserService{
         thisResult.put("code",0);
         thisResult.put("message","Unknown situation");
         //accessToken加域名验证
-        if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3") && request.getServerName().equals("127.0.0.1")){
+        if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3")){
+//            if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3") && request.getServerName().equals("127.0.0.1")){
             //验证结果
             User thisUser = this.userRepository.findOneByUsername(signInKey);
             if(thisUser == null){
