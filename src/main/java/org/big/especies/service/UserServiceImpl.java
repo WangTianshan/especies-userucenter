@@ -380,12 +380,12 @@ public class UserServiceImpl implements UserService{
                             sb.append("Recording lives around us, citizen science starts from here.<br/>");
                             sb.append("Click the link below to activate the account, please activate it as soon as possible!<br/>");
                             sb.append("【Effective before "+thisUser.getVerificationCodeExpiryTime()+"】<br/>");
-                            sb.append("<a href=\"http://"+base_url+"/signup/active/");
+                            sb.append("<a href=\"http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
                             sb.append(thisUser.getVerificationCode());
                             sb.append("/");
-                            sb.append("\">http://"+base_url+"/signup/active/");
+                            sb.append("\">http://"+base_url+"/register/active/");
                             sb.append(thisUser.getUsername());
                             sb.append("/");
                             sb.append(thisUser.getVerificationCode());
@@ -696,7 +696,7 @@ public class UserServiceImpl implements UserService{
         if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3")){
 //            if(signInToken.equals("B6B4D7ED1E4D436F8D69FFE3924F47B3") && request.getServerName().equals("127.0.0.1")){
             //验证结果
-            User thisUser = this.userRepository.findOneByUsername(signInKey);
+            User thisUser = this.userRepository.findOneByUsernameOrEmail(signInKey,signInKey);
             if(thisUser == null){
                 thisResult.put("code",-1);
                 thisResult.put("message","No this user");
